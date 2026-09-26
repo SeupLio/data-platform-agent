@@ -1,0 +1,170 @@
+{
+  "total": 143,
+  "dimension_means": {
+    "accuracy": 1.0,
+    "reasoning": 1.0,
+    "adaptation": 1.0,
+    "efficiency": 1.0,
+    "experience": 1.0
+  },
+  "overall": 1.0,
+  "by_kind": {
+    "govern_sql": {
+      "count": 21,
+      "overall": 1.0,
+      "dimensions": {
+        "accuracy": 1.0,
+        "reasoning": 1.0,
+        "adaptation": 1.0,
+        "efficiency": 1.0,
+        "experience": 1.0
+      }
+    },
+    "govern_table": {
+      "count": 7,
+      "overall": 1.0,
+      "dimensions": {
+        "accuracy": 1.0,
+        "reasoning": 1.0,
+        "adaptation": 1.0,
+        "efficiency": 1.0,
+        "experience": 1.0
+      }
+    },
+    "insight": {
+      "count": 20,
+      "overall": 1.0,
+      "dimensions": {
+        "accuracy": 1.0,
+        "reasoning": 1.0,
+        "adaptation": 1.0,
+        "efficiency": 1.0,
+        "experience": 1.0
+      }
+    },
+    "qa": {
+      "count": 95,
+      "overall": 1.0,
+      "dimensions": {
+        "accuracy": 1.0,
+        "reasoning": 1.0,
+        "adaptation": 1.0,
+        "efficiency": 1.0,
+        "experience": 1.0
+      }
+    }
+  },
+  "by_scenario": {
+    "安全与边界": {
+      "count": 10,
+      "overall": 1.0
+    },
+    "指标消歧": {
+      "count": 13,
+      "overall": 1.0
+    },
+    "智能问答": {
+      "count": 64,
+      "overall": 1.0
+    },
+    "智能问答-结构化": {
+      "count": 8,
+      "overall": 1.0
+    },
+    "治理-SQL-join 常量条件（有 on 子句，按规则文本不算 G08）": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-join 无 on": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-phone 未脱敏": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-select * 有分区": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-user_id 未脱敏": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-分区字段写错": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-口径硬编码": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-合规分组查询": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-合规增长查询": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-合规查询": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-已脱敏": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-带筛选的合规查询": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-敏感字段未脱敏": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-无分区 + select *": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-明细层全表": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-明细层无分区有 limit": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-汇总层无分区": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-硬编码 + 驼峰别名": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-跨层依赖": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-驼峰字段": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-SQL-驼峰字段 2": {
+      "count": 1,
+      "overall": 1.0
+    },
+    "治理-表规范": {
+      "count": 7,
+      "overall": 1.0
+    },
+    "自动分析": {
+      "count": 20,
+      "overall": 1.0
+    }
+  },
+  "failures": [],
+  "elapsed_ms": 1918.57,
+  "mutations": []
+}

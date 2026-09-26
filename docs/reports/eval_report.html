@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'><title>数据平台 Agent 评测报告</title><style>
+body{font-family:-apple-system,'Segoe UI','Microsoft YaHei',sans-serif;background:#f7f8fa;color:#222;margin:0;padding:32px}
+.wrap{max-width:1080px;margin:0 auto}
+h1{font-size:22px;margin:0 0 4px}
+h2{font-size:17px;margin:28px 0 10px;border-left:4px solid #fb7299;padding-left:8px}
+.sub{color:#666;font-size:13px;margin-bottom:20px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px}
+th,td{border:1px solid #e5e6eb;padding:6px 10px;text-align:left}
+th{background:#f2f3f5;font-weight:600}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.good{color:#1a7f37}
+.bad{color:#c1121f}
+.cards{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+.card{background:#fff;border:1px solid #e5e6eb;border-radius:8px;padding:12px 16px;min-width:150px}
+.card .k{font-size:12px;color:#888}
+.card .v{font-size:22px;font-weight:600}
+.note{background:#fff8e6;border:1px solid #ffe58f;border-radius:6px;padding:10px 14px;font-size:13px}
+code{background:#f2f3f5;padding:1px 5px;border-radius:3px;font-size:12px}
+ul{font-size:13px;line-height:1.7}
+</style></head><body><div class='wrap'><h1>数据平台 Agent 评测报告</h1><div class='sub'>生成时间 2026-09-26 10:56 · 离线可复现（0 次模型调用） · 用例 143 条</div><div class='cards'><div class='card'><div class='k'>综合得分</div><div class='v'>1.0000</div></div><div class='card'><div class='k'>问答准确率</div><div class='v'>1.000</div></div><div class='card'><div class='k'>数据推理有效性</div><div class='v'>1.000</div></div><div class='card'><div class='k'>场景适配度</div><div class='v'>1.000</div></div><div class='card'><div class='k'>响应效率</div><div class='v'>1.000</div></div><div class='card'><div class='k'>用户体验</div><div class='v'>1.000</div></div></div><h2>分场景得分</h2><table><tr><th>用例类型</th><th>条数</th><th>综合</th><th>问答准确率</th><th>数据推理有效性</th><th>场景适配度</th><th>响应效率</th><th>用户体验</th></tr><tr><td>govern_sql</td><td class='num'>21</td><td class='num'>1.0000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td></tr><tr><td>govern_table</td><td class='num'>7</td><td class='num'>1.0000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td></tr><tr><td>insight</td><td class='num'>20</td><td class='num'>1.0000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td></tr><tr><td>qa</td><td class='num'>95</td><td class='num'>1.0000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td><td class='num'>1.000</td></tr></table><h2>这份报告没覆盖什么</h2><ul><li>本报告的每一个数字都是离线跑出来的，不依赖任何模型调用；换机器 clone 后重跑应完全一致。</li><li>评测的期望值由独立 Oracle 计算（自建 SQL），不复用被测的查询编译路径。</li><li>「用户体验」「场景适配度」两维是结构化判分，不是模型主观打分，所以没有裁判噪声。</li></ul></div></body></html>

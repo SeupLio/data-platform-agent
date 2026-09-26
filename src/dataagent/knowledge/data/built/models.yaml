@@ -1,0 +1,134 @@
+- columns:
+  - date
+  - category
+  - play_cnt
+  - watch_uv
+  - finish_rate
+  - avg_play_duration
+  domain: 消费
+  downstream:
+  - BI 看板-消费总览
+  grain: 日期 × 分区
+  id: ads_consumption_overview
+  layer: ADS
+  notes: 应用层，禁止被其它 ADS 表直接引用
+  owner: 数据平台-消费数据组
+  partition_key: date
+  upstream:
+  - dws_video_daily
+- columns:
+  - category
+  - category_name
+  - parent_category
+  - is_core
+  domain: 公共
+  downstream:
+  - dws_video_daily
+  - ads_consumption_overview
+  grain: 分区
+  id: dim_category
+  layer: DIM
+  notes: 维表，无需分区过滤
+  owner: 数据平台-公共数据组
+  partition_key: 无
+  upstream:
+  - ods_category_meta
+- columns:
+  - date
+  - user_id
+  - video_id
+  - up_id
+  - category
+  - platform
+  - play_cnt
+  - duration_sec
+  - is_finish
+  - is_valid_play
+  domain: 消费
+  downstream:
+  - dws_video_daily
+  grain: 用户 × 稿件 × 单次播放事件
+  id: dwd_video_play_detail
+  layer: DWD
+  notes: 明细层，禁止直接对报表开放，日增约 8 亿行
+  owner: 数据平台-消费数据组
+  partition_key: date
+  upstream:
+  - ods_client_log_play
+- columns:
+  - date
+  - up_id
+  - category
+  - publish_cnt
+  - play_cnt
+  - follower_add_cnt
+  - income
+  domain: 创作
+  downstream:
+  - ads_creator_overview
+  grain: 日期 × UP主 × 分区
+  id: dws_up_daily
+  layer: DWS
+  notes: up_id 为敏感字段，对外必须脱敏
+  owner: 数据平台-创作数据组
+  partition_key: date
+  upstream:
+  - dwd_video_audit
+  - dwd_up_follow
+- columns:
+  - date
+  - platform
+  - dau
+  - new_user_cnt
+  - retain_1d_cnt
+  - retain_7d_cnt
+  - usage_sec
+  - pay_user_cnt
+  - pay_amount
+  - vip_open_cnt
+  - ad_income
+  - ad_impression
+  - ad_click
+  domain: 用户增长
+  downstream:
+  - ads_growth_overview
+  grain: 日期 × 端
+  id: dws_user_daily
+  layer: DWS
+  notes: 增长与商业化共用，付费相关字段需脱敏后对外
+  owner: 数据平台-增长数据组
+  partition_key: date
+  upstream:
+  - dwd_user_active
+  - dwd_order_pay
+- columns:
+  - date
+  - category
+  - platform
+  - upload_cnt
+  - audit_pass_cnt
+  - play_cnt
+  - watch_uv
+  - finish_cnt
+  - valid_play_cnt
+  - duration_sec
+  - like_cnt
+  - coin_cnt
+  - fav_cnt
+  - share_cnt
+  - comment_cnt
+  - danmu_cnt
+  - triple_cnt
+  domain: 消费
+  downstream:
+  - ads_consumption_overview
+  - ads_category_rank
+  grain: 日期 × 分区 × 端
+  id: dws_video_daily
+  layer: DWS
+  notes: 消费域主表，指标平台的默认取数表
+  owner: 数据平台-消费数据组
+  partition_key: date
+  upstream:
+  - dwd_video_play_detail
+  - dwd_video_audit

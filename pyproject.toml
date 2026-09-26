@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-platform-agent"
+version = "0.1.0"
+description = "数据平台 Agent 产品原型：指标知识库 + 智能问答 / 自动分析 / 治理助手 + 五维评测体系"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+dataagent = "dataagent.cli:main"
+
+[tool.setuptools.packages.find]
+where = "src"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["src"]

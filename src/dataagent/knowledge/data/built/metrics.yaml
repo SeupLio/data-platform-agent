@@ -1,0 +1,656 @@
+- aliases:
+  - 活跃UP主数
+  - 活跃UP数
+  - 活跃创作者数
+  caveats: 以过审为门槛，仅投稿未过审不计入
+  confusable_with:
+  - 无
+  definition: 统计周期内至少发布过 1 个过审稿件的去重 UP 主数量
+  dimensions:
+  - date
+  - category
+  domain: 创作
+  formula: count(distinct up_id)
+  id: active_up_cnt
+  level: 原子指标
+  name: 活跃UP主数
+  owner: 数据平台-创作数据组
+  table: dws_up_daily
+  unit: 人
+  value_type: int
+- aliases:
+  - 广告收入
+  - 广告营收
+  - 广告流水
+  caveats: 按确认口径统计，与现金流出口径不同
+  confusable_with:
+  - 无
+  definition: 统计周期内广告业务确认的收入金额
+  dimensions:
+  - date
+  - platform
+  domain: 商业化
+  formula: sum(ad_income)
+  id: ad_income
+  level: 原子指标
+  name: 广告收入
+  owner: 数据平台-商业化数据组
+  table: dws_user_daily
+  unit: 元
+  value_type: money
+- aliases:
+  - ARPU
+  - 人均付费
+  - 人均付费金额
+  caveats: 与 ARPPU 区分，后者分母是付费用户数
+  confusable_with:
+  - 无
+  definition: 平均每活跃用户的付费金额
+  dimensions:
+  - date
+  - platform
+  domain: 商业化
+  formula: sum(pay_amount) / sum(dau)
+  id: arpu
+  level: 派生指标
+  name: ARPU
+  owner: 数据平台-商业化数据组
+  table: dws_user_daily
+  unit: 元
+  value_type: ratio
+- aliases:
+  - 过审数
+  - 过审稿件数
+  - 审核通过数
+  caveats: 审核存在延迟，T 日投稿可能 T+1 出结果，故过审率按投稿日归因为近似口径
+  confusable_with:
+  - 投稿数
+  definition: 统计周期内通过审核的稿件数量
+  dimensions:
+  - date
+  - category
+  domain: 创作
+  formula: sum(audit_pass_cnt)
+  id: audit_pass_cnt
+  level: 原子指标
+  name: 过审数
+  owner: 数据平台-创作数据组
+  table: dws_video_daily
+  unit: 个
+  value_type: int
+- aliases:
+  - 过审率
+  - 审核通过率
+  caveats: 审核存在延迟，T 日投稿可能在 T+1 出结果
+  confusable_with:
+  - 无
+  definition: 通过审核的稿件数占投稿数的比例
+  dimensions:
+  - date
+  - category
+  domain: 创作
+  formula: sum(audit_pass_cnt) / sum(upload_cnt)
+  id: audit_pass_rate
+  level: 派生指标
+  name: 过审率
+  owner: 数据平台-创作数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 人均播放时长
+  - 人均观看时长
+  - 人均视频时长
+  caveats: 分母是播放人数不是 DAU，两个口径数值差异通常在 10% 以上
+  confusable_with:
+  - 人均使用时长
+  definition: 观看用户平均每人每天的视频播放时长
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(duration_sec) / sum(watch_uv)
+  id: avg_play_duration
+  level: 派生指标
+  name: 人均播放时长
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 秒
+  value_type: ratio
+- aliases:
+  - 人均使用时长
+  - 人均时长
+  - 人均停留时长
+  - 人均消费时长
+  caveats: 分母是 DAU，与人均播放时长的分母（播放人数）不同
+  confusable_with:
+  - 人均播放时长
+  definition: 活跃用户平均每人每天的全站停留时长
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(usage_sec) / sum(dau)
+  id: avg_usage_duration
+  level: 派生指标
+  name: 人均使用时长
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 秒
+  value_type: ratio
+- aliases:
+  - 投币数
+  - 投币量
+  - 硬币数
+  caveats: 投币消耗用户硬币库存，与点赞不是同一行为
+  confusable_with:
+  - 无
+  definition: 统计周期内视频获得的投币次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(coin_cnt)
+  id: coin_cnt
+  level: 原子指标
+  name: 投币数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 评论数
+  - 评论量
+  - 评论条数
+  caveats: 评论为独立实体可回复，弹幕不进评论口径
+  confusable_with:
+  - 弹幕数
+  definition: 统计周期内视频新增评论条数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(comment_cnt)
+  id: comment_cnt
+  level: 原子指标
+  name: 评论数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 条
+  value_type: int
+- aliases:
+  - 弹幕数
+  - 弹幕量
+  - 弹幕条数
+  caveats: 弹幕按发送时刻归属，不接受补录
+  confusable_with:
+  - 评论数
+  definition: 统计周期内视频新增弹幕条数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(danmu_cnt)
+  id: danmu_cnt
+  level: 原子指标
+  name: 弹幕数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 条
+  value_type: int
+- aliases:
+  - DAU
+  - 日活
+  - 日活跃用户数
+  - 活跃用户数
+  caveats: DAU 覆盖全站访问行为，播放人数只覆盖视频消费，DAU 恒大于播放人数
+  confusable_with:
+  - 播放人数
+  definition: 统计周期内启动过 App 或访问过站点的去重用户数
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(dau)
+  id: dau
+  level: 原子指标
+  name: DAU
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 人
+  value_type: int
+- aliases:
+  - 播放时长
+  - 总播放时长
+  - 消费时长
+  caveats: 仅统计视频消费，不含直播与社区浏览时长
+  confusable_with:
+  - 使用时长
+  definition: 统计周期内所有视频被播放的累计时长
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(duration_sec)
+  id: duration_sec
+  level: 原子指标
+  name: 播放时长
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 秒
+  value_type: int
+- aliases:
+  - 收藏数
+  - 收藏量
+  - 收藏次数
+  caveats: 收藏不随视频下架而失效
+  confusable_with:
+  - 无
+  definition: 统计周期内视频被加入收藏的次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(fav_cnt)
+  id: fav_cnt
+  level: 原子指标
+  name: 收藏数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 完播次数
+  - 完整播放次数
+  caveats: 完播不等于有效播放，前者要求走到结尾
+  confusable_with:
+  - 有效播放次数
+  definition: 统计周期内视频被完整播放到结尾的次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(finish_cnt)
+  id: finish_cnt
+  level: 原子指标
+  name: 完播次数
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 完播率
+  - 完整播放率
+  caveats: 分子分母必须同维度同口径，禁止跨表拼接
+  confusable_with:
+  - 有效播放率
+  definition: 完播次数占播放次数的比例，衡量内容吸引力
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(finish_cnt) / sum(play_cnt)
+  id: finish_rate
+  level: 派生指标
+  name: 完播率
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 涨粉数
+  - 新增粉丝数
+  - 粉丝增长
+  caveats: 净增口径，已扣除取关
+  confusable_with:
+  - 无
+  definition: 统计周期内 UP 主净增粉丝数
+  dimensions:
+  - date
+  - category
+  domain: 创作
+  formula: sum(follower_add_cnt)
+  id: follower_add_cnt
+  level: 原子指标
+  name: 涨粉数
+  owner: 数据平台-创作数据组
+  table: dws_up_daily
+  unit: 人
+  value_type: int
+- aliases:
+  - 互动率
+  caveats: 五类行为口径由社区组统一维护，历史上存在「三行为版」遗留口径，已废弃
+  confusable_with:
+  - 点赞率
+  - 三连率
+  definition: 点赞、投币、收藏、分享、评论五类互动行为次数之和占播放次数的比例
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(like_cnt + coin_cnt + fav_cnt + share_cnt + comment_cnt) / sum(play_cnt)
+  id: interaction_rate
+  level: 派生指标
+  name: 互动率
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 点赞数
+  - 点赞量
+  - 点赞次数
+  caveats: 点赞可取消，口径取当日净增
+  confusable_with:
+  - 无
+  definition: 统计周期内视频获得的点赞次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(like_cnt)
+  id: like_cnt
+  level: 原子指标
+  name: 点赞数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 点赞率
+  caveats: 互动率的子集，不能与互动率混用
+  confusable_with:
+  - 互动率
+  - 三连率
+  definition: 点赞次数占播放次数的比例
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(like_cnt) / sum(play_cnt)
+  id: like_rate
+  level: 派生指标
+  name: 点赞率
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 新增用户
+  - 新用户数
+  - 注册用户数
+  - 拉新
+  caveats: 注册但未激活不计入
+  confusable_with:
+  - 无
+  definition: 统计周期内首次注册并完成激活的用户数
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(new_user_cnt)
+  id: new_user_cnt
+  level: 原子指标
+  name: 新增用户
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 人
+  value_type: int
+- aliases:
+  - 付费转化率
+  - 付费率
+  - 转化率
+  caveats: 口径中的付费含大会员与直播打赏，不含广告收入
+  confusable_with:
+  - 无
+  definition: 付费用户数占活跃用户数的比例
+  dimensions:
+  - date
+  - platform
+  domain: 商业化
+  formula: sum(pay_user_cnt) / sum(dau)
+  id: pay_conv_rate
+  level: 派生指标
+  name: 付费转化率
+  owner: 数据平台-商业化数据组
+  table: dws_user_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 播放量
+  - VV
+  - 播放次数
+  - 播放VV
+  - 视频播放量
+  caveats: 与「播放人数」是一对高频混淆口径，前者计次、后者去重计人
+  confusable_with:
+  - 播放人数
+  definition: 统计周期内视频被播放的次数，每一次起播计 1 次，同一用户重复播放重复计数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(play_cnt)
+  id: play_cnt
+  level: 原子指标
+  name: 播放量
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 次日留存率
+  - 次留
+  - 1日留存率
+  caveats: 分母是 N 天新增，不是 N+1 天活跃
+  confusable_with:
+  - 7日留存率
+  definition: 第 N 天新增用户在第 N+1 天仍活跃的比例
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(retain_1d_cnt) / sum(new_user_cnt)
+  id: retain_1d_rate
+  level: 派生指标
+  name: 次日留存率
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 7日留存率
+  - 7日留存
+  - 七日留存率
+  caveats: 与次日留存率共用分母，横向对比时口径一致
+  confusable_with:
+  - 次日留存率
+  definition: 第 N 天新增用户在第 N+7 天仍活跃的比例
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(retain_7d_cnt) / sum(new_user_cnt)
+  id: retain_7d_rate
+  level: 派生指标
+  name: 7日留存率
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 分享数
+  - 分享量
+  - 转发数
+  caveats: 站外分享与站内分享合并计数
+  confusable_with:
+  - 无
+  definition: 统计周期内视频被分享的次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(share_cnt)
+  id: share_cnt
+  level: 原子指标
+  name: 分享数
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 三连率
+  - 三联率
+  caveats: 需要按 用户×稿件 去重后判定，是全站最容易被错算成「点赞率+投币率+收藏率」的指标
+  confusable_with:
+  - 互动率
+  - 点赞率
+  definition: 同一用户对同一稿件同时完成点赞、投币、收藏的次数占播放次数的比例
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 社区互动
+  formula: sum(triple_cnt) / sum(play_cnt)
+  id: triple_rate
+  level: 派生指标
+  name: 三连率
+  owner: 数据平台-社区数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 投稿数
+  - 稿件数
+  - 上传数
+  caveats: 投稿不等于过审，存在审核中与被驳回
+  confusable_with:
+  - 过审数
+  definition: 统计周期内 UP 主提交的稿件数量
+  dimensions:
+  - date
+  - category
+  domain: 创作
+  formula: sum(upload_cnt)
+  id: upload_cnt
+  level: 原子指标
+  name: 投稿数
+  owner: 数据平台-创作数据组
+  table: dws_video_daily
+  unit: 个
+  value_type: int
+- aliases:
+  - 使用时长
+  - 总使用时长
+  - 停留时长
+  caveats: 口径大于播放时长，二者不可互相替代
+  confusable_with:
+  - 播放时长
+  definition: 统计周期内全站用户停留时长之和，含视频、直播、社区
+  dimensions:
+  - date
+  - platform
+  domain: 用户增长
+  formula: sum(usage_sec)
+  id: usage_sec
+  level: 原子指标
+  name: 使用时长
+  owner: 数据平台-增长数据组
+  table: dws_user_daily
+  unit: 秒
+  value_type: int
+- aliases:
+  - 有效播放次数
+  - 有效播放量
+  caveats: 30 秒阈值由消费组维护，改动需走口径变更流程
+  confusable_with:
+  - 完播次数
+  definition: 统计周期内播放时长达到 30 秒以上的播放次数
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(valid_play_cnt)
+  id: valid_play_cnt
+  level: 原子指标
+  name: 有效播放次数
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 次
+  value_type: int
+- aliases:
+  - 有效播放率
+  - 30秒播放率
+  caveats: 阈值 30 秒由消费组定义，改动需走口径变更流程
+  confusable_with:
+  - 完播率
+  definition: 播放时长达到 30 秒以上的播放次数占播放次数的比例
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(valid_play_cnt) / sum(play_cnt)
+  id: valid_play_rate
+  level: 派生指标
+  name: 有效播放率
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 百分比
+  value_type: ratio
+- aliases:
+  - 大会员开通数
+  - 大会员开卡数
+  - 会员开通数
+  caveats: 不含续费，续费单独计量
+  confusable_with:
+  - 无
+  definition: 统计周期内新开通大会员的订单数
+  dimensions:
+  - date
+  - platform
+  domain: 商业化
+  formula: sum(vip_open_cnt)
+  id: vip_open_cnt
+  level: 原子指标
+  name: 大会员开通数
+  owner: 数据平台-商业化数据组
+  table: dws_user_daily
+  unit: 单
+  value_type: int
+- aliases:
+  - 播放人数
+  - 观看人数
+  - 播放UV
+  - 观看UV
+  caveats: 跨天去重需走 dws_user_daily，日粒度 watch_uv 不可直接相加
+  confusable_with:
+  - 播放量
+  definition: 统计周期内观看过视频的去重用户数，同一用户多次观看只计 1 人
+  dimensions:
+  - date
+  - category
+  - platform
+  domain: 消费
+  formula: sum(watch_uv)
+  id: watch_uv
+  level: 原子指标
+  name: 播放人数
+  owner: 数据平台-消费数据组
+  table: dws_video_daily
+  unit: 人
+  value_type: int

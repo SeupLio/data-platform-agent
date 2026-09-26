@@ -1,0 +1,593 @@
+- id: active_up_cnt::caveat
+  kind: caveat
+  metric_id: active_up_cnt
+  text: 活跃UP主数 口径注意：以过审为门槛，仅投稿未过审不计入
+- id: active_up_cnt::definition
+  kind: definition
+  metric_id: active_up_cnt
+  text: 活跃UP主数（人）：统计周期内至少发布过 1 个过审稿件的去重 UP 主数量
+- id: active_up_cnt::dimension
+  kind: dimension
+  metric_id: active_up_cnt
+  text: 活跃UP主数 支持维度：date、category
+- id: active_up_cnt::formula
+  kind: formula
+  metric_id: active_up_cnt
+  text: 活跃UP主数 的计算方式：count(distinct up_id)，来源表 dws_up_daily
+- id: ad_income::caveat
+  kind: caveat
+  metric_id: ad_income
+  text: 广告收入 口径注意：按确认口径统计，与现金流出口径不同
+- id: ad_income::definition
+  kind: definition
+  metric_id: ad_income
+  text: 广告收入（元）：统计周期内广告业务确认的收入金额
+- id: ad_income::dimension
+  kind: dimension
+  metric_id: ad_income
+  text: 广告收入 支持维度：date、platform
+- id: ad_income::formula
+  kind: formula
+  metric_id: ad_income
+  text: 广告收入 的计算方式：sum(ad_income)，来源表 dws_user_daily
+- id: arpu::caveat
+  kind: caveat
+  metric_id: arpu
+  text: ARPU 口径注意：与 ARPPU 区分，后者分母是付费用户数
+- id: arpu::definition
+  kind: definition
+  metric_id: arpu
+  text: ARPU（元）：平均每活跃用户的付费金额
+- id: arpu::dimension
+  kind: dimension
+  metric_id: arpu
+  text: ARPU 支持维度：date、platform
+- id: arpu::formula
+  kind: formula
+  metric_id: arpu
+  text: ARPU 的计算方式：sum(pay_amount) / sum(dau)，来源表 dws_user_daily
+- id: audit_pass_cnt::caveat
+  kind: caveat
+  metric_id: audit_pass_cnt
+  text: 过审数 口径注意：审核存在延迟，T 日投稿可能 T+1 出结果，故过审率按投稿日归因为近似口径
+- id: audit_pass_cnt::confusable
+  kind: confusable
+  metric_id: audit_pass_cnt
+  text: 过审数 易混指标：投稿数
+- id: audit_pass_cnt::definition
+  kind: definition
+  metric_id: audit_pass_cnt
+  text: 过审数（个）：统计周期内通过审核的稿件数量
+- id: audit_pass_cnt::dimension
+  kind: dimension
+  metric_id: audit_pass_cnt
+  text: 过审数 支持维度：date、category
+- id: audit_pass_cnt::formula
+  kind: formula
+  metric_id: audit_pass_cnt
+  text: 过审数 的计算方式：sum(audit_pass_cnt)，来源表 dws_video_daily
+- id: audit_pass_rate::caveat
+  kind: caveat
+  metric_id: audit_pass_rate
+  text: 过审率 口径注意：审核存在延迟，T 日投稿可能在 T+1 出结果
+- id: audit_pass_rate::definition
+  kind: definition
+  metric_id: audit_pass_rate
+  text: 过审率（百分比）：通过审核的稿件数占投稿数的比例
+- id: audit_pass_rate::dimension
+  kind: dimension
+  metric_id: audit_pass_rate
+  text: 过审率 支持维度：date、category
+- id: audit_pass_rate::formula
+  kind: formula
+  metric_id: audit_pass_rate
+  text: 过审率 的计算方式：sum(audit_pass_cnt) / sum(upload_cnt)，来源表 dws_video_daily
+- id: avg_play_duration::caveat
+  kind: caveat
+  metric_id: avg_play_duration
+  text: 人均播放时长 口径注意：分母是播放人数不是 DAU，两个口径数值差异通常在 10% 以上
+- id: avg_play_duration::confusable
+  kind: confusable
+  metric_id: avg_play_duration
+  text: 人均播放时长 易混指标：人均使用时长
+- id: avg_play_duration::definition
+  kind: definition
+  metric_id: avg_play_duration
+  text: 人均播放时长（秒）：观看用户平均每人每天的视频播放时长
+- id: avg_play_duration::dimension
+  kind: dimension
+  metric_id: avg_play_duration
+  text: 人均播放时长 支持维度：date、category、platform
+- id: avg_play_duration::formula
+  kind: formula
+  metric_id: avg_play_duration
+  text: 人均播放时长 的计算方式：sum(duration_sec) / sum(watch_uv)，来源表 dws_video_daily
+- id: avg_usage_duration::caveat
+  kind: caveat
+  metric_id: avg_usage_duration
+  text: 人均使用时长 口径注意：分母是 DAU，与人均播放时长的分母（播放人数）不同
+- id: avg_usage_duration::confusable
+  kind: confusable
+  metric_id: avg_usage_duration
+  text: 人均使用时长 易混指标：人均播放时长
+- id: avg_usage_duration::definition
+  kind: definition
+  metric_id: avg_usage_duration
+  text: 人均使用时长（秒）：活跃用户平均每人每天的全站停留时长
+- id: avg_usage_duration::dimension
+  kind: dimension
+  metric_id: avg_usage_duration
+  text: 人均使用时长 支持维度：date、platform
+- id: avg_usage_duration::formula
+  kind: formula
+  metric_id: avg_usage_duration
+  text: 人均使用时长 的计算方式：sum(usage_sec) / sum(dau)，来源表 dws_user_daily
+- id: coin_cnt::caveat
+  kind: caveat
+  metric_id: coin_cnt
+  text: 投币数 口径注意：投币消耗用户硬币库存，与点赞不是同一行为
+- id: coin_cnt::definition
+  kind: definition
+  metric_id: coin_cnt
+  text: 投币数（次）：统计周期内视频获得的投币次数
+- id: coin_cnt::dimension
+  kind: dimension
+  metric_id: coin_cnt
+  text: 投币数 支持维度：date、category、platform
+- id: coin_cnt::formula
+  kind: formula
+  metric_id: coin_cnt
+  text: 投币数 的计算方式：sum(coin_cnt)，来源表 dws_video_daily
+- id: comment_cnt::caveat
+  kind: caveat
+  metric_id: comment_cnt
+  text: 评论数 口径注意：评论为独立实体可回复，弹幕不进评论口径
+- id: comment_cnt::confusable
+  kind: confusable
+  metric_id: comment_cnt
+  text: 评论数 易混指标：弹幕数
+- id: comment_cnt::definition
+  kind: definition
+  metric_id: comment_cnt
+  text: 评论数（条）：统计周期内视频新增评论条数
+- id: comment_cnt::dimension
+  kind: dimension
+  metric_id: comment_cnt
+  text: 评论数 支持维度：date、category、platform
+- id: comment_cnt::formula
+  kind: formula
+  metric_id: comment_cnt
+  text: 评论数 的计算方式：sum(comment_cnt)，来源表 dws_video_daily
+- id: danmu_cnt::caveat
+  kind: caveat
+  metric_id: danmu_cnt
+  text: 弹幕数 口径注意：弹幕按发送时刻归属，不接受补录
+- id: danmu_cnt::confusable
+  kind: confusable
+  metric_id: danmu_cnt
+  text: 弹幕数 易混指标：评论数
+- id: danmu_cnt::definition
+  kind: definition
+  metric_id: danmu_cnt
+  text: 弹幕数（条）：统计周期内视频新增弹幕条数
+- id: danmu_cnt::dimension
+  kind: dimension
+  metric_id: danmu_cnt
+  text: 弹幕数 支持维度：date、category、platform
+- id: danmu_cnt::formula
+  kind: formula
+  metric_id: danmu_cnt
+  text: 弹幕数 的计算方式：sum(danmu_cnt)，来源表 dws_video_daily
+- id: dau::caveat
+  kind: caveat
+  metric_id: dau
+  text: DAU 口径注意：DAU 覆盖全站访问行为，播放人数只覆盖视频消费，DAU 恒大于播放人数
+- id: dau::confusable
+  kind: confusable
+  metric_id: dau
+  text: DAU 易混指标：播放人数
+- id: dau::definition
+  kind: definition
+  metric_id: dau
+  text: DAU（人）：统计周期内启动过 App 或访问过站点的去重用户数
+- id: dau::dimension
+  kind: dimension
+  metric_id: dau
+  text: DAU 支持维度：date、platform
+- id: dau::formula
+  kind: formula
+  metric_id: dau
+  text: DAU 的计算方式：sum(dau)，来源表 dws_user_daily
+- id: duration_sec::caveat
+  kind: caveat
+  metric_id: duration_sec
+  text: 播放时长 口径注意：仅统计视频消费，不含直播与社区浏览时长
+- id: duration_sec::confusable
+  kind: confusable
+  metric_id: duration_sec
+  text: 播放时长 易混指标：使用时长
+- id: duration_sec::definition
+  kind: definition
+  metric_id: duration_sec
+  text: 播放时长（秒）：统计周期内所有视频被播放的累计时长
+- id: duration_sec::dimension
+  kind: dimension
+  metric_id: duration_sec
+  text: 播放时长 支持维度：date、category、platform
+- id: duration_sec::formula
+  kind: formula
+  metric_id: duration_sec
+  text: 播放时长 的计算方式：sum(duration_sec)，来源表 dws_video_daily
+- id: fav_cnt::caveat
+  kind: caveat
+  metric_id: fav_cnt
+  text: 收藏数 口径注意：收藏不随视频下架而失效
+- id: fav_cnt::definition
+  kind: definition
+  metric_id: fav_cnt
+  text: 收藏数（次）：统计周期内视频被加入收藏的次数
+- id: fav_cnt::dimension
+  kind: dimension
+  metric_id: fav_cnt
+  text: 收藏数 支持维度：date、category、platform
+- id: fav_cnt::formula
+  kind: formula
+  metric_id: fav_cnt
+  text: 收藏数 的计算方式：sum(fav_cnt)，来源表 dws_video_daily
+- id: finish_cnt::caveat
+  kind: caveat
+  metric_id: finish_cnt
+  text: 完播次数 口径注意：完播不等于有效播放，前者要求走到结尾
+- id: finish_cnt::confusable
+  kind: confusable
+  metric_id: finish_cnt
+  text: 完播次数 易混指标：有效播放次数
+- id: finish_cnt::definition
+  kind: definition
+  metric_id: finish_cnt
+  text: 完播次数（次）：统计周期内视频被完整播放到结尾的次数
+- id: finish_cnt::dimension
+  kind: dimension
+  metric_id: finish_cnt
+  text: 完播次数 支持维度：date、category、platform
+- id: finish_cnt::formula
+  kind: formula
+  metric_id: finish_cnt
+  text: 完播次数 的计算方式：sum(finish_cnt)，来源表 dws_video_daily
+- id: finish_rate::caveat
+  kind: caveat
+  metric_id: finish_rate
+  text: 完播率 口径注意：分子分母必须同维度同口径，禁止跨表拼接
+- id: finish_rate::confusable
+  kind: confusable
+  metric_id: finish_rate
+  text: 完播率 易混指标：有效播放率
+- id: finish_rate::definition
+  kind: definition
+  metric_id: finish_rate
+  text: 完播率（百分比）：完播次数占播放次数的比例，衡量内容吸引力
+- id: finish_rate::dimension
+  kind: dimension
+  metric_id: finish_rate
+  text: 完播率 支持维度：date、category、platform
+- id: finish_rate::formula
+  kind: formula
+  metric_id: finish_rate
+  text: 完播率 的计算方式：sum(finish_cnt) / sum(play_cnt)，来源表 dws_video_daily
+- id: follower_add_cnt::caveat
+  kind: caveat
+  metric_id: follower_add_cnt
+  text: 涨粉数 口径注意：净增口径，已扣除取关
+- id: follower_add_cnt::definition
+  kind: definition
+  metric_id: follower_add_cnt
+  text: 涨粉数（人）：统计周期内 UP 主净增粉丝数
+- id: follower_add_cnt::dimension
+  kind: dimension
+  metric_id: follower_add_cnt
+  text: 涨粉数 支持维度：date、category
+- id: follower_add_cnt::formula
+  kind: formula
+  metric_id: follower_add_cnt
+  text: 涨粉数 的计算方式：sum(follower_add_cnt)，来源表 dws_up_daily
+- id: interaction_rate::caveat
+  kind: caveat
+  metric_id: interaction_rate
+  text: 互动率 口径注意：五类行为口径由社区组统一维护，历史上存在「三行为版」遗留口径，已废弃
+- id: interaction_rate::confusable
+  kind: confusable
+  metric_id: interaction_rate
+  text: 互动率 易混指标：点赞率、三连率
+- id: interaction_rate::definition
+  kind: definition
+  metric_id: interaction_rate
+  text: 互动率（百分比）：点赞、投币、收藏、分享、评论五类互动行为次数之和占播放次数的比例
+- id: interaction_rate::dimension
+  kind: dimension
+  metric_id: interaction_rate
+  text: 互动率 支持维度：date、category、platform
+- id: interaction_rate::formula
+  kind: formula
+  metric_id: interaction_rate
+  text: 互动率 的计算方式：sum(like_cnt + coin_cnt + fav_cnt + share_cnt + comment_cnt) / sum(play_cnt)，来源表
+    dws_video_daily
+- id: like_cnt::caveat
+  kind: caveat
+  metric_id: like_cnt
+  text: 点赞数 口径注意：点赞可取消，口径取当日净增
+- id: like_cnt::definition
+  kind: definition
+  metric_id: like_cnt
+  text: 点赞数（次）：统计周期内视频获得的点赞次数
+- id: like_cnt::dimension
+  kind: dimension
+  metric_id: like_cnt
+  text: 点赞数 支持维度：date、category、platform
+- id: like_cnt::formula
+  kind: formula
+  metric_id: like_cnt
+  text: 点赞数 的计算方式：sum(like_cnt)，来源表 dws_video_daily
+- id: like_rate::caveat
+  kind: caveat
+  metric_id: like_rate
+  text: 点赞率 口径注意：互动率的子集，不能与互动率混用
+- id: like_rate::confusable
+  kind: confusable
+  metric_id: like_rate
+  text: 点赞率 易混指标：互动率、三连率
+- id: like_rate::definition
+  kind: definition
+  metric_id: like_rate
+  text: 点赞率（百分比）：点赞次数占播放次数的比例
+- id: like_rate::dimension
+  kind: dimension
+  metric_id: like_rate
+  text: 点赞率 支持维度：date、category、platform
+- id: like_rate::formula
+  kind: formula
+  metric_id: like_rate
+  text: 点赞率 的计算方式：sum(like_cnt) / sum(play_cnt)，来源表 dws_video_daily
+- id: new_user_cnt::caveat
+  kind: caveat
+  metric_id: new_user_cnt
+  text: 新增用户 口径注意：注册但未激活不计入
+- id: new_user_cnt::definition
+  kind: definition
+  metric_id: new_user_cnt
+  text: 新增用户（人）：统计周期内首次注册并完成激活的用户数
+- id: new_user_cnt::dimension
+  kind: dimension
+  metric_id: new_user_cnt
+  text: 新增用户 支持维度：date、platform
+- id: new_user_cnt::formula
+  kind: formula
+  metric_id: new_user_cnt
+  text: 新增用户 的计算方式：sum(new_user_cnt)，来源表 dws_user_daily
+- id: pay_conv_rate::caveat
+  kind: caveat
+  metric_id: pay_conv_rate
+  text: 付费转化率 口径注意：口径中的付费含大会员与直播打赏，不含广告收入
+- id: pay_conv_rate::definition
+  kind: definition
+  metric_id: pay_conv_rate
+  text: 付费转化率（百分比）：付费用户数占活跃用户数的比例
+- id: pay_conv_rate::dimension
+  kind: dimension
+  metric_id: pay_conv_rate
+  text: 付费转化率 支持维度：date、platform
+- id: pay_conv_rate::formula
+  kind: formula
+  metric_id: pay_conv_rate
+  text: 付费转化率 的计算方式：sum(pay_user_cnt) / sum(dau)，来源表 dws_user_daily
+- id: play_cnt::caveat
+  kind: caveat
+  metric_id: play_cnt
+  text: 播放量 口径注意：与「播放人数」是一对高频混淆口径，前者计次、后者去重计人
+- id: play_cnt::confusable
+  kind: confusable
+  metric_id: play_cnt
+  text: 播放量 易混指标：播放人数
+- id: play_cnt::definition
+  kind: definition
+  metric_id: play_cnt
+  text: 播放量（次）：统计周期内视频被播放的次数，每一次起播计 1 次，同一用户重复播放重复计数
+- id: play_cnt::dimension
+  kind: dimension
+  metric_id: play_cnt
+  text: 播放量 支持维度：date、category、platform
+- id: play_cnt::formula
+  kind: formula
+  metric_id: play_cnt
+  text: 播放量 的计算方式：sum(play_cnt)，来源表 dws_video_daily
+- id: retain_1d_rate::caveat
+  kind: caveat
+  metric_id: retain_1d_rate
+  text: 次日留存率 口径注意：分母是 N 天新增，不是 N+1 天活跃
+- id: retain_1d_rate::confusable
+  kind: confusable
+  metric_id: retain_1d_rate
+  text: 次日留存率 易混指标：7日留存率
+- id: retain_1d_rate::definition
+  kind: definition
+  metric_id: retain_1d_rate
+  text: 次日留存率（百分比）：第 N 天新增用户在第 N+1 天仍活跃的比例
+- id: retain_1d_rate::dimension
+  kind: dimension
+  metric_id: retain_1d_rate
+  text: 次日留存率 支持维度：date、platform
+- id: retain_1d_rate::formula
+  kind: formula
+  metric_id: retain_1d_rate
+  text: 次日留存率 的计算方式：sum(retain_1d_cnt) / sum(new_user_cnt)，来源表 dws_user_daily
+- id: retain_7d_rate::caveat
+  kind: caveat
+  metric_id: retain_7d_rate
+  text: 7日留存率 口径注意：与次日留存率共用分母，横向对比时口径一致
+- id: retain_7d_rate::confusable
+  kind: confusable
+  metric_id: retain_7d_rate
+  text: 7日留存率 易混指标：次日留存率
+- id: retain_7d_rate::definition
+  kind: definition
+  metric_id: retain_7d_rate
+  text: 7日留存率（百分比）：第 N 天新增用户在第 N+7 天仍活跃的比例
+- id: retain_7d_rate::dimension
+  kind: dimension
+  metric_id: retain_7d_rate
+  text: 7日留存率 支持维度：date、platform
+- id: retain_7d_rate::formula
+  kind: formula
+  metric_id: retain_7d_rate
+  text: 7日留存率 的计算方式：sum(retain_7d_cnt) / sum(new_user_cnt)，来源表 dws_user_daily
+- id: share_cnt::caveat
+  kind: caveat
+  metric_id: share_cnt
+  text: 分享数 口径注意：站外分享与站内分享合并计数
+- id: share_cnt::definition
+  kind: definition
+  metric_id: share_cnt
+  text: 分享数（次）：统计周期内视频被分享的次数
+- id: share_cnt::dimension
+  kind: dimension
+  metric_id: share_cnt
+  text: 分享数 支持维度：date、category、platform
+- id: share_cnt::formula
+  kind: formula
+  metric_id: share_cnt
+  text: 分享数 的计算方式：sum(share_cnt)，来源表 dws_video_daily
+- id: triple_rate::caveat
+  kind: caveat
+  metric_id: triple_rate
+  text: 三连率 口径注意：需要按 用户×稿件 去重后判定，是全站最容易被错算成「点赞率+投币率+收藏率」的指标
+- id: triple_rate::confusable
+  kind: confusable
+  metric_id: triple_rate
+  text: 三连率 易混指标：互动率、点赞率
+- id: triple_rate::definition
+  kind: definition
+  metric_id: triple_rate
+  text: 三连率（百分比）：同一用户对同一稿件同时完成点赞、投币、收藏的次数占播放次数的比例
+- id: triple_rate::dimension
+  kind: dimension
+  metric_id: triple_rate
+  text: 三连率 支持维度：date、category、platform
+- id: triple_rate::formula
+  kind: formula
+  metric_id: triple_rate
+  text: 三连率 的计算方式：sum(triple_cnt) / sum(play_cnt)，来源表 dws_video_daily
+- id: upload_cnt::caveat
+  kind: caveat
+  metric_id: upload_cnt
+  text: 投稿数 口径注意：投稿不等于过审，存在审核中与被驳回
+- id: upload_cnt::confusable
+  kind: confusable
+  metric_id: upload_cnt
+  text: 投稿数 易混指标：过审数
+- id: upload_cnt::definition
+  kind: definition
+  metric_id: upload_cnt
+  text: 投稿数（个）：统计周期内 UP 主提交的稿件数量
+- id: upload_cnt::dimension
+  kind: dimension
+  metric_id: upload_cnt
+  text: 投稿数 支持维度：date、category
+- id: upload_cnt::formula
+  kind: formula
+  metric_id: upload_cnt
+  text: 投稿数 的计算方式：sum(upload_cnt)，来源表 dws_video_daily
+- id: usage_sec::caveat
+  kind: caveat
+  metric_id: usage_sec
+  text: 使用时长 口径注意：口径大于播放时长，二者不可互相替代
+- id: usage_sec::confusable
+  kind: confusable
+  metric_id: usage_sec
+  text: 使用时长 易混指标：播放时长
+- id: usage_sec::definition
+  kind: definition
+  metric_id: usage_sec
+  text: 使用时长（秒）：统计周期内全站用户停留时长之和，含视频、直播、社区
+- id: usage_sec::dimension
+  kind: dimension
+  metric_id: usage_sec
+  text: 使用时长 支持维度：date、platform
+- id: usage_sec::formula
+  kind: formula
+  metric_id: usage_sec
+  text: 使用时长 的计算方式：sum(usage_sec)，来源表 dws_user_daily
+- id: valid_play_cnt::caveat
+  kind: caveat
+  metric_id: valid_play_cnt
+  text: 有效播放次数 口径注意：30 秒阈值由消费组维护，改动需走口径变更流程
+- id: valid_play_cnt::confusable
+  kind: confusable
+  metric_id: valid_play_cnt
+  text: 有效播放次数 易混指标：完播次数
+- id: valid_play_cnt::definition
+  kind: definition
+  metric_id: valid_play_cnt
+  text: 有效播放次数（次）：统计周期内播放时长达到 30 秒以上的播放次数
+- id: valid_play_cnt::dimension
+  kind: dimension
+  metric_id: valid_play_cnt
+  text: 有效播放次数 支持维度：date、category、platform
+- id: valid_play_cnt::formula
+  kind: formula
+  metric_id: valid_play_cnt
+  text: 有效播放次数 的计算方式：sum(valid_play_cnt)，来源表 dws_video_daily
+- id: valid_play_rate::caveat
+  kind: caveat
+  metric_id: valid_play_rate
+  text: 有效播放率 口径注意：阈值 30 秒由消费组定义，改动需走口径变更流程
+- id: valid_play_rate::confusable
+  kind: confusable
+  metric_id: valid_play_rate
+  text: 有效播放率 易混指标：完播率
+- id: valid_play_rate::definition
+  kind: definition
+  metric_id: valid_play_rate
+  text: 有效播放率（百分比）：播放时长达到 30 秒以上的播放次数占播放次数的比例
+- id: valid_play_rate::dimension
+  kind: dimension
+  metric_id: valid_play_rate
+  text: 有效播放率 支持维度：date、category、platform
+- id: valid_play_rate::formula
+  kind: formula
+  metric_id: valid_play_rate
+  text: 有效播放率 的计算方式：sum(valid_play_cnt) / sum(play_cnt)，来源表 dws_video_daily
+- id: vip_open_cnt::caveat
+  kind: caveat
+  metric_id: vip_open_cnt
+  text: 大会员开通数 口径注意：不含续费，续费单独计量
+- id: vip_open_cnt::definition
+  kind: definition
+  metric_id: vip_open_cnt
+  text: 大会员开通数（单）：统计周期内新开通大会员的订单数
+- id: vip_open_cnt::dimension
+  kind: dimension
+  metric_id: vip_open_cnt
+  text: 大会员开通数 支持维度：date、platform
+- id: vip_open_cnt::formula
+  kind: formula
+  metric_id: vip_open_cnt
+  text: 大会员开通数 的计算方式：sum(vip_open_cnt)，来源表 dws_user_daily
+- id: watch_uv::caveat
+  kind: caveat
+  metric_id: watch_uv
+  text: 播放人数 口径注意：跨天去重需走 dws_user_daily，日粒度 watch_uv 不可直接相加
+- id: watch_uv::confusable
+  kind: confusable
+  metric_id: watch_uv
+  text: 播放人数 易混指标：播放量
+- id: watch_uv::definition
+  kind: definition
+  metric_id: watch_uv
+  text: 播放人数（人）：统计周期内观看过视频的去重用户数，同一用户多次观看只计 1 人
+- id: watch_uv::dimension
+  kind: dimension
+  metric_id: watch_uv
+  text: 播放人数 支持维度：date、category、platform
+- id: watch_uv::formula
+  kind: formula
+  metric_id: watch_uv
+  text: 播放人数 的计算方式：sum(watch_uv)，来源表 dws_video_daily

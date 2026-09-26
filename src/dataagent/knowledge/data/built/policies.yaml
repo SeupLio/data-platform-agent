@@ -1,0 +1,70 @@
+- fix: 在 where 中补充 date 范围条件，避免全表扫描
+  id: G01
+  logic: 查询 dwd_ 或 dws_ 层表时，where 子句中未出现分区字段 date
+  name: 分区过滤缺失
+  owner: 数据平台-治理组
+  severity: P0
+  target: sql
+- fix: 显式列出所需字段，避免上游加列导致下游血缘失真
+  id: G02
+  logic: select 列表中出现星号
+  name: 禁止 SELECT *
+  owner: 数据平台-治理组
+  severity: P1
+  target: sql
+- fix: 改用 mask_up_id(up_id) 等平台脱敏函数后再输出
+  id: G03
+  logic: 出现 up_id、user_id、phone、device_id 等敏感字段且未包裹脱敏函数
+  name: 敏感字段未脱敏
+  owner: 数据安全组
+  severity: P0
+  target: sql
+- fix: 改为引用指标平台已注册指标，避免口径分叉
+  id: G04
+  logic: 在 SQL 中直接书写比率计算（含除号且分子分母来自明细列）而未引用指标平台
+  name: 指标口径硬编码
+  owner: 数据平台-治理组
+  severity: P1
+  target: sql
+- fix: 按《数仓分层命名规范》重命名并同步血缘
+  id: G05
+  logic: 表名不以 ods_、dwd_、dws_、ads_、dim_ 前缀开头，或包含大写字母
+  name: 表命名不规范
+  owner: 数据平台-治理组
+  severity: P2
+  target: table
+- fix: 统一改为小写下划线命名
+  id: G06
+  logic: select 或 where 中出现驼峰命名的字段
+  name: 字段命名不规范
+  owner: 数据平台-治理组
+  severity: P2
+  target: sql
+- fix: 改为引用 dws_ 层汇总表，保证分层清晰
+  id: G07
+  logic: ads_ 层表在 from 或 join 中直接引用 dwd_ 层表
+  name: 跨层依赖
+  owner: 数据平台-治理组
+  severity: P1
+  target: sql
+- fix: 补充 on 关联条件，避免笛卡尔积
+  id: G08
+  logic: 出现 join 关键字但缺少 on 子句
+  name: JOIN 缺少关联条件
+  owner: 数据平台-治理组
+  severity: P0
+  target: sql
+- fix: 补充分区条件或 limit，控制扫描量
+  id: G09
+  logic: 查询明细层表且既无分区过滤也无 limit 子句
+  name: 无上限的全表导出
+  owner: 数据平台-治理组
+  severity: P1
+  target: sql
+- fix: 复用已有指标，或在指标平台提交合并申请
+  id: G10
+  logic: 新建指标的口径定义与已注册指标的相似度超过 90%
+  name: 指标重复建设
+  owner: 数据平台-治理组
+  severity: P2
+  target: metric

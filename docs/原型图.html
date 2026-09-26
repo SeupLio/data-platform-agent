@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>数据平台 Agent · 产品界面设计稿</title>
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#ffffff; --line:#e5e6eb; --line-soft:#eef0f3;
+  --t1:#1f2329; --t2:#5f6673; --t3:#8f959e;
+  --acc:#fb7299; --acc-soft:#fff1f5; --acc-line:#f7c4d4;
+  --ok:#1a7f37; --ok-bg:#e9f5ee;
+  --warn:#b26a00; --warn-bg:#fff5e6;
+  --p0:#c1121f; --p0-bg:#fdecec;
+  --p1:#b26a00; --p1-bg:#fff5e6;
+  --p2:#1d6fb8; --p2-bg:#eaf3fb;
+  --code:#f4f5f7;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--t1);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  font-size:13px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Cascadia Mono","Sarasa Mono SC",monospace}
+a{color:inherit}
+
+/* ── 顶栏 ───────────────────────────────────────────── */
+.top{background:#fff;border-bottom:1px solid var(--line);padding:14px 24px 0}
+.top-row{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.logo{width:34px;height:34px;border-radius:8px;background:var(--acc);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;letter-spacing:.5px;flex:none}
+.brand h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.2px}
+.brand p{margin:2px 0 0;font-size:12px;color:var(--t3)}
+.env{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{background:#f7f8fa;border:1px solid var(--line);border-radius:5px;padding:3px 9px;font-size:11px;color:var(--t2);white-space:nowrap}
+.chip b{color:var(--t1);font-weight:600}
+.chip.acc{background:var(--acc-soft);border-color:var(--acc-line);color:#b8375f}
+
+/* ── Tab ────────────────────────────────────────────── */
+.tabs{display:flex;gap:2px;margin-top:14px}
+.tab{border:0;background:transparent;padding:9px 18px;font-size:13px;color:var(--t2);cursor:pointer;
+  border-bottom:2px solid transparent;font-family:inherit;letter-spacing:.2px}
+.tab:hover{color:var(--t1)}
+.tab.on{color:var(--acc);border-bottom-color:var(--acc);font-weight:600}
+.tab .n{display:inline-block;width:15px;height:15px;line-height:15px;border-radius:50%;background:#f0f1f3;
+  color:var(--t2);font-size:10px;text-align:center;margin-right:6px}
+.tab.on .n{background:var(--acc);color:#fff}
+
+/* ── 布局 ───────────────────────────────────────────── */
+main{padding:20px 24px 48px;max-width:1440px;margin:0 auto}
+.screen{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:20px;overflow:hidden}
+.shead{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line-soft);background:#fcfcfd}
+.shead h3{margin:0;font-size:14px;font-weight:600}
+.shead .sub{margin:3px 0 0;font-size:12px;color:var(--t3)}
+.shead .right{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none}
+.sbody{padding:16px 18px}
+.hidden{display:none !important}
+
+/* ── 通用件 ─────────────────────────────────────────── */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;line-height:18px;white-space:nowrap}
+.b-answer{background:var(--ok-bg);color:var(--ok)}
+.b-clarify{background:var(--warn-bg);color:var(--warn)}
+.b-refuse{background:var(--p0-bg);color:var(--p0)}
+.b-p0{background:var(--p0-bg);color:var(--p0);font-weight:600}
+.b-p1{background:var(--p1-bg);color:var(--p1);font-weight:600}
+.b-p2{background:var(--p2-bg);color:var(--p2);font-weight:600}
+.b-gray{background:#f2f3f5;color:var(--t2)}
+.b-acc{background:var(--acc-soft);color:#c2185b}
+.tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:11px;background:#f2f3f5;color:var(--t2);margin-right:4px}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:6px;padding:7px 16px;font-size:12.5px;cursor:pointer;font-family:inherit}
+.btn:hover{background:#f4608c}
+.btn.ghost{background:#fff;color:var(--t2);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--acc);color:var(--acc)}
+.btn.sm{padding:4px 10px;font-size:12px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:#fff;border-radius:14px;padding:4px 12px;font-size:12px;color:var(--t2);cursor:pointer;font-family:inherit}
+.pill:hover{border-color:var(--acc);color:var(--acc)}
+.pill.on{border-color:var(--acc);background:var(--acc-soft);color:#c2185b}
+.fbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:9px 18px;background:#fbfbfc;border-bottom:1px solid var(--line-soft)}
+.fitem{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:4px 10px;font-size:12px}
+.fitem .k{color:var(--t3)}
+.fitem .v{color:var(--t1);font-weight:500}
+.prd{margin:0 18px 18px;border-left:3px solid var(--acc);background:#fcfcfd;border-radius:0 6px 6px 0;padding:12px 14px}
+.prd h4{margin:0 0 6px;font-size:12.5px;color:var(--t1)}
+.prd .row{display:flex;gap:10px;font-size:12px;color:var(--t2);margin-bottom:3px}
+.prd .row .lbl{flex:none;color:var(--t3);width:60px}
+.kv{display:flex;gap:8px;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--line-soft)}
+.kv:last-child{border-bottom:0}
+.kv .k{flex:none;width:78px;color:var(--t3)}
+.kv .v{flex:1;color:var(--t1);word-break:break-all}
+table.t{width:100%;border-collapse:collapse;font-size:12px}
+table.t th{background:#fafbfc;text-align:left;font-weight:600;color:var(--t2);padding:7px 9px;border-bottom:1px solid var(--line)}
+table.t td{padding:7px 9px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+table.t tr:last-child td{border-bottom:0}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.dn{color:var(--p0)} .up{color:var(--ok)}
+.muted{color:var(--t3)}
+pre.code{background:var(--code);border:1px solid var(--line-soft);border-radius:6px;padding:9px 11px;margin:6px 0 0;
+  font-size:11.5px;line-height:1.7;white-space:pre-wrap;word-break:break-all;color:#33383f}
+
+/* ── Tab1 问答 ──────────────────────────────────────── */
+.qa{display:grid;grid-template-columns:216px 1fr 300px;gap:14px;padding:14px 18px}
+.tree{border:1px solid var(--line);border-radius:8px;height:520px;overflow:auto;background:#fcfcfd}
+.tree .sch{padding:8px;border-bottom:1px solid var(--line-soft);position:sticky;top:0;background:#fcfcfd;z-index:2}
+.tree input{width:100%;border:1px solid var(--line);border-radius:5px;padding:5px 8px;font-size:12px;font-family:inherit}
+.grp{padding:6px 4px}
+.grp .gh{font-size:11px;color:var(--t3);padding:5px 8px;display:flex;justify-content:space-between}
+.mi{display:flex;align-items:baseline;gap:6px;padding:4px 8px;border-radius:5px;font-size:12px;color:var(--t2);cursor:default}
+.mi.live{cursor:pointer}
+.mi.live:hover{background:var(--acc-soft)}
+.mi.on{background:var(--acc-soft);color:#c2185b;font-weight:600}
+.mi .id{font-size:10.5px;color:var(--t3)}
+.mi.on .id{color:#c96f92}
+.mi .dot{width:5px;height:5px;border-radius:50%;background:var(--acc);flex:none;align-self:center}
+.conv{border:1px solid var(--line);border-radius:8px;height:520px;overflow:auto;padding:14px;background:#fff}
+.bub{max-width:78%;padding:9px 13px;border-radius:10px;font-size:13px;margin-bottom:12px}
+.bub.u{background:var(--acc);color:#fff;margin-left:auto;border-bottom-right-radius:3px}
+.bub.a{background:#f7f8fa;border:1px solid var(--line-soft);color:var(--t1);border-bottom-left-radius:3px}
+.block{border:1px solid var(--line);border-radius:8px;margin-bottom:10px;overflow:hidden}
+.block .bh{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#fafbfc;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--t2)}
+.block .bb{padding:10px 11px}
+.step{display:flex;gap:9px;padding:7px 0;border-bottom:1px dashed var(--line-soft);opacity:.35}
+.step:last-child{border-bottom:0}
+.step.on{opacity:1}
+.step .sn{width:19px;height:19px;line-height:19px;border-radius:50%;background:#eceef1;color:var(--t2);font-size:11px;text-align:center;flex:none;margin-top:2px}
+.step.on .sn{background:var(--acc);color:#fff}
+.step .st{font-size:12.5px;font-weight:500}
+.step .sa{font-size:11.5px;color:var(--t3)}
+.step .sd{font-size:12px;color:var(--t2);margin-top:4px;display:none}
+.step.on .sd{display:block}
+.bignum{font-size:28px;font-weight:600;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.bignum small{font-size:13px;font-weight:400;color:var(--t2);margin-left:4px}
+.evi{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:6px;background:#fcfcfd}
+.evi .eid{font-size:11.5px;color:var(--acc);font-weight:600}
+.evi .et{font-size:12px;color:var(--t2);margin-top:3px}
+.card{border:1px solid var(--line);border-radius:8px;padding:11px 12px;background:#fcfcfd}
+.card h5{margin:0 0 8px;font-size:12.5px;display:flex;align-items:center;gap:6px}
+.comp{display:flex;gap:8px;align-items:center;padding:12px 18px;border-top:1px solid var(--line-soft);background:#fcfcfd}
+.comp input{flex:1;border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:13px;font-family:inherit}
+.comp input:focus{outline:0;border-color:var(--acc)}
+.ask2{border:1px solid var(--warn-bg);background:var(--warn-bg);border-radius:8px;padding:12px}
+.ask2 .q{font-size:13px;font-weight:600}
+.ask2 .opts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.opt{border:1px solid var(--acc-line);background:#fff;border-radius:6px;padding:8px 14px;font-size:12.5px;cursor:pointer;font-family:inherit;color:#c2185b}
+.opt:hover{background:var(--acc);color:#fff;border-color:var(--acc)}
+.refuse{border:1px solid #f5c6c6;background:var(--p0-bg);border-radius:8px;padding:12px}
+.refuse .q{font-size:13px;font-weight:600;color:var(--p0)}
+.snaps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 18px 16px}
+.snap{border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;background:#fff}
+.snap:hover{border-color:var(--acc)}
+.snap.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc-soft)}
+.snap .t{font-size:12.5px;font-weight:600}
+.snap .d{font-size:11.5px;color:var(--t3);margin-top:3px}
+
+/* ── Tab2 归因 ─────────────────────────────────────── */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fcfcfd}
+.kpi .k{font-size:11.5px;color:var(--t3)}
+.kpi .v{font-size:19px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:11px;color:var(--t3);margin-top:1px}
+.attr{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px}
+.attr .ah{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fafbfc;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+.ar{display:grid;grid-template-columns:34px 92px 1fr 104px 190px;gap:10px;align-items:center;
+  padding:8px 12px;border-bottom:1px solid var(--line-soft);cursor:pointer;font-size:12px}
+.ar:hover{background:var(--acc-soft)}
+.ar.on{background:var(--acc-soft)}
+.ar:last-child{border-bottom:0}
+.ar .rk{color:var(--t3);font-size:11.5px}
+.ar .dv{font-weight:600}
+.bar{height:16px;position:relative;background:#f2f3f5;border-radius:3px;overflow:hidden}
+.bar .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#dcdfe4}
+.bar .fill{position:absolute;top:3px;bottom:3px;border-radius:2px}
+.bar .fill.same{background:var(--acc)}
+.bar .fill.rev{background:#9db9a8}
+.drill{border:1px solid var(--line);border-radius:8px;padding:12px;background:#fcfcfd;margin-bottom:12px}
+.concl{border:1px solid var(--acc-line);background:var(--acc-soft);border-radius:8px;padding:12px}
+.concl .t{font-size:13px;font-weight:600;color:#b8375f}
+
+/* ── Tab3 治理 ─────────────────────────────────────── */
+.gov{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 18px}
+textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-size:12px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.7;resize:vertical;min-height:96px}
+textarea:focus{outline:0;border-color:var(--acc)}
+.find{border:1px solid var(--line);border-left-width:3px;border-radius:6px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.find.P0{border-left-color:var(--p0)} .find.P1{border-left-color:#e8a33d} .find.P2{border-left-color:var(--p2)}
+.find .fh{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.find .rid{font-weight:600;font-size:13px}
+.find .rn{font-size:12.5px;color:var(--t1)}
+.find .fe{font-size:12px;color:var(--t2)}
+.find .ff{font-size:12px;color:var(--t2);margin-top:5px}
+.find .fo{font-size:11.5px;color:var(--t3);margin-top:3px}
+
+/* ── Tab4 知识库 ───────────────────────────────────── */
+.kb{display:grid;grid-template-columns:216px 1fr;gap:14px;padding:14px 18px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.fld{padding:6px 0;border-bottom:1px dashed var(--line-soft)}
+.fld .fl{font-size:11.5px;color:var(--t3)}
+.fld .fv{font-size:12.5px;color:var(--t1);margin-top:1px;word-break:break-all}
+.fld.wide{grid-column:1 / -1}
+.ck{border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-bottom:6px;background:#fff}
+.ck .ch{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.ck .cid{font-size:11.5px;font-weight:600;color:var(--acc)}
+.ck .ct{font-size:12px;color:var(--t2)}
+.pipe{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;background:#fcfcfd;border:1px solid var(--line);border-radius:8px}
+.pipe .st{border:1px solid var(--line);border-radius:6px;background:#fff;padding:5px 10px;font-size:11.5px;color:var(--t2)}
+.pipe .st b{color:var(--t1)}
+.pipe .ar{color:var(--t3);font-size:12px}
+footer{padding:8px 24px 32px;color:var(--t3);font-size:11.5px;max-width:1440px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-row">
+    <div class="logo">DA</div>
+    <div class="brand">
+      <h1>数据平台 Agent · 产品界面设计稿</h1>
+      <p>三个 Agent（智能问答 / 自动分析 / 治理助手）跑在同一套指标知识库 + 离线数仓上</p>
+    </div>
+    <div class="env">
+      <span class="chip">知识库 <b>32</b> 指标 · <b>6</b> 模型 · <b>10</b> 规则 · <b>148</b> 知识块 · <b>12</b> 易混对</span>
+      <span class="chip">数仓 <b>6,656</b> + <b>832</b> + <b>7,896</b> 行</span>
+      <span class="chip acc">数据日期 <b>2026-09-24</b></span>
+    </div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-tab="qa"><span class="n">1</span>智能问答</button>
+    <button class="tab" data-tab="insight"><span class="n">2</span>自动分析</button>
+    <button class="tab" data-tab="gov"><span class="n">3</span>治理助手</button>
+    <button class="tab" data-tab="kb"><span class="n">4</span>知识库后台</button>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════ Tab 1 · 智能问答 ══════════════ -->
+<section id="tab-qa">
+  <div class="screen">
+    <div class="shead">
+      <div>
+        <h3>状态一 · 正常回答：给出「数 + 口径 + 证据」</h3>
+        <p class="sub">链路：问题 → 指标检索/消歧 → 读口径 → 编译查询计划 → 执行 → 回答</p>
+      </div>
+      <div class="right">
+        <span class="badge b-gray" id="qaKind">answer</span>
+      </div>
+    </div>
+    <div class="fbar">
+      <span class="fitem"><span class="k">时间区间</span><span class="v" id="qaRange">2026-09-18 ~ 2026-09-24</span></span>
+      <span class="fitem"><span class="k">粒度</span><span class="v">最近 7 天</span></span>
+      <span class="fitem"><span class="k">业务域</span><span class="v" id="qaDomain">消费</span></span>
+      <span class="fitem"><span class="k">数据源</span><span class="v mono" id="qaTable">dws_video_daily</span></span>
+      <span class="fitem"><span class="k">指标层级</span><span class="v" id="qaLevel">原子指标</span></span>
+      <span class="fitem" style="margin-left:auto;border:0;background:transparent"><span class="k">数据日期</span><span class="v">2026-09-24</span></span>
+    </div>
+
+    <div class="qa">
+      <!-- 左：指标树 -->
+      <aside class="tree">
+        <div class="sch"><input id="treeSearch" placeholder="搜索指标 / 编码"></div>
+        <div id="treeBody"></div>
+      </aside>
+
+      <!-- 中：对话区 -->
+      <div class="conv" id="conv">
+        <div class="bub u" id="qaUserBubble">最近7天播放量是多少</div>
+        <div id="qaMain"></div>
+      </div>
+
+      <!-- 右：口径卡 -->
+      <aside>
+        <div class="card" id="qaCard"></div>
+      </aside>
+    </div>
+
+    <div class="comp">
+      <input id="qaInput" value="最近7天播放量是多少">
+      <button class="btn" id="qaSend">发送</button>
+    </div>
+    <div class="fbar" style="border-top:0;border-bottom:1px solid var(--line-soft)">
+      <span class="k muted" style="font-size:12px">快捷问法</span>
+      <button class="pill" data-ask="最近7天播放量是多少">正常问法（播放量）</button>
+      <button class="pill" data-ask="留存率是多少">歧义问法（留存率）</button>
+      <button class="pill" data-ask="帮我导出所有用户的手机号">越权问法（手机号）</button>
+      <button class="pill" data-ask="人均播放时长是多少">精确别名（人均播放时长）</button>
+    </div>
+
+    <div class="snaps" id="qaSnaps">
+      <div class="snap on" data-snap="play">
+        <div class="t"><span class="badge b-answer">answer</span> 正常回答</div>
+        <div class="d">检索得分 63.0，次候选 11.65 未过澄清阈值 → 直接取数，答 234,195,130 次并附证据块</div>
+      </div>
+      <div class="snap" data-snap="clarify">
+        <div class="t"><span class="badge b-clarify">clarify</span> 反问澄清</div>
+        <div class="d">次日留存率 17.14 与 7日留存率 17.14 并列 → 不给数，先让用户二选一</div>
+      </div>
+      <div class="snap" data-snap="refuse">
+        <div class="t"><span class="badge b-refuse">refuse</span> 越权拒绝</div>
+        <div class="d">命中敏感词「手机号」→ 拒绝回答，引导走数据权限申请流程</div>
+      </div>
+    </div>
+
+    <div class="prd">
+      <h4>产品说明</h4>
+      <div class="row"><span class="lbl">需求</span><span>业务同学用大白话问数。口径选错比答不上来更危险——数字会错得毫无痕迹，所以回答必须「数 + 口径定义 + 证据」三件套齐出，分不清时先反问一句。</span></div>
+      <div class="row"><span class="lbl">验收标准</span><span>① 歧义问法 100% 反问、不猜（留存率）；② 越权/敏感问法 100% 拒绝并给出权限路径；③ 精确别名不误反问（人均播放时长 66.0 吞掉播放时长 64.0）；④ 每个回答可回溯到知识块 id；⑤ 置信度不足（&lt; 12.0）不猜口径。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ Tab 2 · 自动分析 ══════════════ -->
+<section id="tab-insight" class="hidden">
+  <div class="screen">
+    <div class="shead">
+      <div>
+        <h3 id="insTitle">归因工作台 · 播放量为什么降了</h3>
+        <p class="sub" id="insSub">链路：定指标 → 取当前区间 → 取等长基线段 → 逐维度贡献度归因 → 输出结论</p>
+      </div>
+      <div class="right">
+        <span class="chips">
+          <button class="pill on" data-case="play">案例一 · 播放量下降</button>
+          <button class="pill" data-case="dau">案例二 · DAU 上涨</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="sbody">
+      <div class="kpis" id="insKpis"></div>
+
+      <div class="block" style="margin-bottom:12px">
+        <div class="bh"><span>日粒度趋势</span><span class="muted" id="insTrendNote"></span></div>
+        <div class="bb"><div id="insTrend"></div></div>
+      </div>
+
+      <div id="insAttrs"></div>
+
+      <div class="drill" id="insDrill"></div>
+
+      <div class="concl" id="insConcl"></div>
+    </div>
+
+    <div class="prd">
+      <h4>产品说明</h4>
+      <div class="row"><span class="lbl">需求</span><span>用户不再问「是多少」，而是问「为什么变了」。Agent 要自动完成定指标、取数、取基线、归因，并把 delta 拆到每个维度值上说人话。</span></div>
+      <div class="row"><span class="lbl">验收标准</span><span>① 基线段与当前段等长、可复现；② 用贡献度分解而非「哪个维度值最大」——各维度值贡献之和还原整体 delta；③ 主因结论与登记异常对齐（2026-09-10 游戏分区 play_cnt factor 0.55、2026-09-16 pc 端 dau factor 1.38）；④ 任意维度值可下钻到日粒度明细。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ Tab 3 · 治理助手 ══════════════ -->
+<section id="tab-gov" class="hidden">
+  <div class="screen">
+    <div class="shead">
+      <div>
+        <h3>治理检查 · SQL / 表名 / 待注册指标</h3>
+        <p class="sub">输出不是「通过/不通过」，而是一份问题清单：规则号 + 级别 + 命中证据 + 修复建议 + 责任组</p>
+      </div>
+      <div class="right"><span class="badge b-gray" id="govKind">report</span></div>
+    </div>
+
+    <div class="gov">
+      <div>
+        <div class="chips" style="margin-bottom:8px" id="govKindBar">
+          <button class="pill on" data-gk="sql">SQL</button>
+          <button class="pill" data-gk="table">表名</button>
+          <button class="pill" data-gk="metric">待注册指标</button>
+        </div>
+        <div id="govInputArea"></div>
+        <div class="chips" style="margin-top:10px" id="govPresets"></div>
+        <div style="margin-top:12px"><button class="btn" id="govRun">开始检查</button></div>
+        <div style="margin-top:14px" id="govRuleHit"></div>
+      </div>
+      <div>
+        <div id="govReport"></div>
+      </div>
+    </div>
+
+    <div class="sbody" style="border-top:1px solid var(--line-soft)">
+      <div class="block">
+        <div class="bh"><span>规则库</span><span class="muted">规则数据驱动：判什么写在 policies.yaml，怎么判写在 governance.py，加规则不改代码</span></div>
+        <div class="bb"><table class="t" id="govRules"></table></div>
+      </div>
+    </div>
+
+    <div class="prd">
+      <h4>产品说明</h4>
+      <div class="row"><span class="lbl">需求</span><span>治理规范写在 wiki 上没人看。把它变成可执行的检查：贴一段 SQL、一张表名、一个待注册指标，立刻给出可派单的问题清单。</span></div>
+      <div class="row"><span class="lbl">验收标准</span><span>① 每条命中必须同时给出规则号、P0/P1/P2、命中证据、修复建议、责任组；② 级别可驱动拦截策略（P0 阻断提交）；③ 规则数据驱动，全库 10 条（8 条判 SQL / 1 条判表名 / 1 条判指标）；④ 判不出时不硬报——未命中即「可提交」。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ Tab 4 · 知识库后台 ══════════════ -->
+<section id="tab-kb" class="hidden">
+  <div class="screen">
+    <div class="shead">
+      <div>
+        <h3>指标知识库后台 · 指标录入 / 知识拆解 / 易混标注</h3>
+        <p class="sub">从非结构化 wiki 语料（raw/*.md）经拆解流水线生成结构化条目，供三个 Agent 共同引用</p>
+      </div>
+      <div class="right"><span class="badge b-acc">32 指标 → 148 知识块</span></div>
+    </div>
+
+    <div class="kb">
+      <aside class="tree">
+        <div class="sch"><input id="kbSearch" placeholder="搜索指标 / 编码 / 别名"></div>
+        <div id="kbList"></div>
+      </aside>
+
+      <div>
+        <div class="block" style="margin-bottom:12px">
+          <div class="bh"><span>结构化字段</span><span class="muted mono" id="kbMid"></span></div>
+          <div class="bb"><div class="form" id="kbForm"></div></div>
+        </div>
+
+        <div class="block" style="margin-bottom:12px">
+          <div class="bh"><span>易混指标标注</span><span class="muted" id="kbConfCount"></span></div>
+          <div class="bb">
+            <div class="chips" id="kbConf" style="margin-bottom:8px"></div>
+            <table class="t" id="kbConfTable"></table>
+          </div>
+        </div>
+
+        <div class="block" style="margin-bottom:12px">
+          <div class="bh"><span>知识拆解</span><span class="muted" id="kbChunkCount"></span></div>
+          <div class="bb" id="kbChunks"></div>
+        </div>
+
+        <div class="block">
+          <div class="bh"><span>拆解流水线</span><span class="muted">scripts/build_kb.py → knowledge.build → data/built/*.yaml（有新鲜度护栏）</span></div>
+          <div class="bb">
+            <div class="pipe">
+              <span class="st">raw/metric_glossary.md<br><b>32</b> 段</span><span class="ar">→</span>
+              <span class="st">raw/model_spec.md<br><b>6</b> 段</span><span class="ar">→</span>
+              <span class="st">raw/governance_rules.md<br><b>10</b> 段</span><span class="ar">→</span>
+              <span class="st">split_blocks<br>parse_fields</span><span class="ar">→</span>
+              <span class="st">build_chunks<br><b>148</b> 块</span><span class="ar">→</span>
+              <span class="st">build_confusable_pairs<br><b>12</b> 对</span><span class="ar">→</span>
+              <span class="st">metrics.yaml 32<br>models.yaml 6<br>policies.yaml 10<br>chunks.yaml 148</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="block" style="margin-top:12px">
+          <div class="bh"><span>数据模型与血缘</span><span class="muted">dwd / dws / ads / dim 分层，字段清单决定 Agent 能下钻到哪些维度</span></div>
+          <div class="bb"><table class="t" id="kbModels"></table></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prd">
+      <h4>产品说明</h4>
+      <div class="row"><span class="lbl">需求</span><span>知识库不是一次性字典。它要能被业务组持续维护：一条指标改口径，问答、分析、治理三条链路同时生效。</span></div>
+      <div class="row"><span class="lbl">验收标准</span><span>① 一条指标的结构化字段完整（定义 / 公式 / 来源表 / 支持维度 / 单位 / 口径负责人 / 别名 / 易混 / 注意事项）；② 一条指标拆成可独立引用的知识块，全库 32 → 148；③ 易混关系双向可维护（12 对），消歧时直接可用；④ 从 wiki 到结构化产物有可重跑流水线与新鲜度护栏。</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>页面中的数字、SQL、证据块与规则命中均取自 <span class="mono">data-platform-agent</span> 实跑结果（<span class="mono">python -m dataagent.cli ask / analyze / govern</span>），与仓库代码同源。</footer>
+
+<script>
+/* ═══════════ 知识库（由 data/built/*.yaml 导出） ═══════════ */
+const KB = {"metrics":{"active_up_cnt":{"name":"活跃UP主数","id":"active_up_cnt","domain":"创作","level":"原子指标","definition":"统计周期内至少发布过 1 个过审稿件的去重 UP 主数量","formula":"count(distinct up_id)","table":"dws_up_daily","dimensions":["date","category"],"unit":"人","value_type":"int","owner":"数据平台-创作数据组","aliases":["活跃UP主数","活跃UP数","活跃创作者数"],"confusable_with":["无"],"caveats":"以过审为门槛，仅投稿未过审不计入"},"ad_income":{"name":"广告收入","id":"ad_income","domain":"商业化","level":"原子指标","definition":"统计周期内广告业务确认的收入金额","formula":"sum(ad_income)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"元","value_type":"money","owner":"数据平台-商业化数据组","aliases":["广告收入","广告营收","广告流水"],"confusable_with":["无"],"caveats":"按确认口径统计，与现金流出口径不同"},"arpu":{"name":"ARPU","id":"arpu","domain":"商业化","level":"派生指标","definition":"平均每活跃用户的付费金额","formula":"sum(pay_amount) / sum(dau)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"元","value_type":"ratio","owner":"数据平台-商业化数据组","aliases":["ARPU","人均付费","人均付费金额"],"confusable_with":["无"],"caveats":"与 ARPPU 区分，后者分母是付费用户数"},"audit_pass_cnt":{"name":"过审数","id":"audit_pass_cnt","domain":"创作","level":"原子指标","definition":"统计周期内通过审核的稿件数量","formula":"sum(audit_pass_cnt)","table":"dws_video_daily","dimensions":["date","category"],"unit":"个","value_type":"int","owner":"数据平台-创作数据组","aliases":["过审数","过审稿件数","审核通过数"],"confusable_with":["投稿数"],"caveats":"审核存在延迟，T 日投稿可能 T+1 出结果，故过审率按投稿日归因为近似口径"},"audit_pass_rate":{"name":"过审率","id":"audit_pass_rate","domain":"创作","level":"派生指标","definition":"通过审核的稿件数占投稿数的比例","formula":"sum(audit_pass_cnt) / sum(upload_cnt)","table":"dws_video_daily","dimensions":["date","category"],"unit":"百分比","value_type":"ratio","owner":"数据平台-创作数据组","aliases":["过审率","审核通过率"],"confusable_with":["无"],"caveats":"审核存在延迟，T 日投稿可能在 T+1 出结果"},"avg_play_duration":{"name":"人均播放时长","id":"avg_play_duration","domain":"消费","level":"派生指标","definition":"观看用户平均每人每天的视频播放时长","formula":"sum(duration_sec) / sum(watch_uv)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"秒","value_type":"ratio","owner":"数据平台-消费数据组","aliases":["人均播放时长","人均观看时长","人均视频时长"],"confusable_with":["人均使用时长"],"caveats":"分母是播放人数不是 DAU，两个口径数值差异通常在 10% 以上"},"avg_usage_duration":{"name":"人均使用时长","id":"avg_usage_duration","domain":"用户增长","level":"派生指标","definition":"活跃用户平均每人每天的全站停留时长","formula":"sum(usage_sec) / sum(dau)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"秒","value_type":"ratio","owner":"数据平台-增长数据组","aliases":["人均使用时长","人均时长","人均停留时长","人均消费时长"],"confusable_with":["人均播放时长"],"caveats":"分母是 DAU，与人均播放时长的分母（播放人数）不同"},"coin_cnt":{"name":"投币数","id":"coin_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频获得的投币次数","formula":"sum(coin_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-社区数据组","aliases":["投币数","投币量","硬币数"],"confusable_with":["无"],"caveats":"投币消耗用户硬币库存，与点赞不是同一行为"},"comment_cnt":{"name":"评论数","id":"comment_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频新增评论条数","formula":"sum(comment_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"条","value_type":"int","owner":"数据平台-社区数据组","aliases":["评论数","评论量","评论条数"],"confusable_with":["弹幕数"],"caveats":"评论为独立实体可回复，弹幕不进评论口径"},"danmu_cnt":{"name":"弹幕数","id":"danmu_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频新增弹幕条数","formula":"sum(danmu_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"条","value_type":"int","owner":"数据平台-社区数据组","aliases":["弹幕数","弹幕量","弹幕条数"],"confusable_with":["评论数"],"caveats":"弹幕按发送时刻归属，不接受补录"},"dau":{"name":"DAU","id":"dau","domain":"用户增长","level":"原子指标","definition":"统计周期内启动过 App 或访问过站点的去重用户数","formula":"sum(dau)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"人","value_type":"int","owner":"数据平台-增长数据组","aliases":["DAU","日活","日活跃用户数","活跃用户数"],"confusable_with":["播放人数"],"caveats":"DAU 覆盖全站访问行为，播放人数只覆盖视频消费，DAU 恒大于播放人数"},"duration_sec":{"name":"播放时长","id":"duration_sec","domain":"消费","level":"原子指标","definition":"统计周期内所有视频被播放的累计时长","formula":"sum(duration_sec)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"秒","value_type":"int","owner":"数据平台-消费数据组","aliases":["播放时长","总播放时长","消费时长"],"confusable_with":["使用时长"],"caveats":"仅统计视频消费，不含直播与社区浏览时长"},"fav_cnt":{"name":"收藏数","id":"fav_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频被加入收藏的次数","formula":"sum(fav_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-社区数据组","aliases":["收藏数","收藏量","收藏次数"],"confusable_with":["无"],"caveats":"收藏不随视频下架而失效"},"finish_cnt":{"name":"完播次数","id":"finish_cnt","domain":"消费","level":"原子指标","definition":"统计周期内视频被完整播放到结尾的次数","formula":"sum(finish_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-消费数据组","aliases":["完播次数","完整播放次数"],"confusable_with":["有效播放次数"],"caveats":"完播不等于有效播放，前者要求走到结尾"},"finish_rate":{"name":"完播率","id":"finish_rate","domain":"消费","level":"派生指标","definition":"完播次数占播放次数的比例，衡量内容吸引力","formula":"sum(finish_cnt) / sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-消费数据组","aliases":["完播率","完整播放率"],"confusable_with":["有效播放率"],"caveats":"分子分母必须同维度同口径，禁止跨表拼接"},"follower_add_cnt":{"name":"涨粉数","id":"follower_add_cnt","domain":"创作","level":"原子指标","definition":"统计周期内 UP 主净增粉丝数","formula":"sum(follower_add_cnt)","table":"dws_up_daily","dimensions":["date","category"],"unit":"人","value_type":"int","owner":"数据平台-创作数据组","aliases":["涨粉数","新增粉丝数","粉丝增长"],"confusable_with":["无"],"caveats":"净增口径，已扣除取关"},"interaction_rate":{"name":"互动率","id":"interaction_rate","domain":"社区互动","level":"派生指标","definition":"点赞、投币、收藏、分享、评论五类互动行为次数之和占播放次数的比例","formula":"sum(like_cnt + coin_cnt + fav_cnt + share_cnt + comment_cnt) / sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-社区数据组","aliases":["互动率"],"confusable_with":["点赞率","三连率"],"caveats":"五类行为口径由社区组统一维护，历史上存在「三行为版」遗留口径，已废弃"},"like_cnt":{"name":"点赞数","id":"like_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频获得的点赞次数","formula":"sum(like_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-社区数据组","aliases":["点赞数","点赞量","点赞次数"],"confusable_with":["无"],"caveats":"点赞可取消，口径取当日净增"},"like_rate":{"name":"点赞率","id":"like_rate","domain":"社区互动","level":"派生指标","definition":"点赞次数占播放次数的比例","formula":"sum(like_cnt) / sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-社区数据组","aliases":["点赞率"],"confusable_with":["互动率","三连率"],"caveats":"互动率的子集，不能与互动率混用"},"new_user_cnt":{"name":"新增用户","id":"new_user_cnt","domain":"用户增长","level":"原子指标","definition":"统计周期内首次注册并完成激活的用户数","formula":"sum(new_user_cnt)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"人","value_type":"int","owner":"数据平台-增长数据组","aliases":["新增用户","新用户数","注册用户数","拉新"],"confusable_with":["无"],"caveats":"注册但未激活不计入"},"pay_conv_rate":{"name":"付费转化率","id":"pay_conv_rate","domain":"商业化","level":"派生指标","definition":"付费用户数占活跃用户数的比例","formula":"sum(pay_user_cnt) / sum(dau)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-商业化数据组","aliases":["付费转化率","付费率","转化率"],"confusable_with":["无"],"caveats":"口径中的付费含大会员与直播打赏，不含广告收入"},"play_cnt":{"name":"播放量","id":"play_cnt","domain":"消费","level":"原子指标","definition":"统计周期内视频被播放的次数，每一次起播计 1 次，同一用户重复播放重复计数","formula":"sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-消费数据组","aliases":["播放量","VV","播放次数","播放VV","视频播放量"],"confusable_with":["播放人数"],"caveats":"与「播放人数」是一对高频混淆口径，前者计次、后者去重计人"},"retain_1d_rate":{"name":"次日留存率","id":"retain_1d_rate","domain":"用户增长","level":"派生指标","definition":"第 N 天新增用户在第 N+1 天仍活跃的比例","formula":"sum(retain_1d_cnt) / sum(new_user_cnt)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-增长数据组","aliases":["次日留存率","次留","1日留存率"],"confusable_with":["7日留存率"],"caveats":"分母是 N 天新增，不是 N+1 天活跃"},"retain_7d_rate":{"name":"7日留存率","id":"retain_7d_rate","domain":"用户增长","level":"派生指标","definition":"第 N 天新增用户在第 N+7 天仍活跃的比例","formula":"sum(retain_7d_cnt) / sum(new_user_cnt)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-增长数据组","aliases":["7日留存率","7日留存","七日留存率"],"confusable_with":["次日留存率"],"caveats":"与次日留存率共用分母，横向对比时口径一致"},"share_cnt":{"name":"分享数","id":"share_cnt","domain":"社区互动","level":"原子指标","definition":"统计周期内视频被分享的次数","formula":"sum(share_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-社区数据组","aliases":["分享数","分享量","转发数"],"confusable_with":["无"],"caveats":"站外分享与站内分享合并计数"},"triple_rate":{"name":"三连率","id":"triple_rate","domain":"社区互动","level":"派生指标","definition":"同一用户对同一稿件同时完成点赞、投币、收藏的次数占播放次数的比例","formula":"sum(triple_cnt) / sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-社区数据组","aliases":["三连率","三联率"],"confusable_with":["互动率","点赞率"],"caveats":"需要按 用户×稿件 去重后判定，是全站最容易被错算成「点赞率+投币率+收藏率」的指标"},"upload_cnt":{"name":"投稿数","id":"upload_cnt","domain":"创作","level":"原子指标","definition":"统计周期内 UP 主提交的稿件数量","formula":"sum(upload_cnt)","table":"dws_video_daily","dimensions":["date","category"],"unit":"个","value_type":"int","owner":"数据平台-创作数据组","aliases":["投稿数","稿件数","上传数"],"confusable_with":["过审数"],"caveats":"投稿不等于过审，存在审核中与被驳回"},"usage_sec":{"name":"使用时长","id":"usage_sec","domain":"用户增长","level":"原子指标","definition":"统计周期内全站用户停留时长之和，含视频、直播、社区","formula":"sum(usage_sec)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"秒","value_type":"int","owner":"数据平台-增长数据组","aliases":["使用时长","总使用时长","停留时长"],"confusable_with":["播放时长"],"caveats":"口径大于播放时长，二者不可互相替代"},"valid_play_cnt":{"name":"有效播放次数","id":"valid_play_cnt","domain":"消费","level":"原子指标","definition":"统计周期内播放时长达到 30 秒以上的播放次数","formula":"sum(valid_play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"次","value_type":"int","owner":"数据平台-消费数据组","aliases":["有效播放次数","有效播放量"],"confusable_with":["完播次数"],"caveats":"30 秒阈值由消费组维护，改动需走口径变更流程"},"valid_play_rate":{"name":"有效播放率","id":"valid_play_rate","domain":"消费","level":"派生指标","definition":"播放时长达到 30 秒以上的播放次数占播放次数的比例","formula":"sum(valid_play_cnt) / sum(play_cnt)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"百分比","value_type":"ratio","owner":"数据平台-消费数据组","aliases":["有效播放率","30秒播放率"],"confusable_with":["完播率"],"caveats":"阈值 30 秒由消费组定义，改动需走口径变更流程"},"vip_open_cnt":{"name":"大会员开通数","id":"vip_open_cnt","domain":"商业化","level":"原子指标","definition":"统计周期内新开通大会员的订单数","formula":"sum(vip_open_cnt)","table":"dws_user_daily","dimensions":["date","platform"],"unit":"单","value_type":"int","owner":"数据平台-商业化数据组","aliases":["大会员开通数","大会员开卡数","会员开通数"],"confusable_with":["无"],"caveats":"不含续费，续费单独计量"},"watch_uv":{"name":"播放人数","id":"watch_uv","domain":"消费","level":"原子指标","definition":"统计周期内观看过视频的去重用户数，同一用户多次观看只计 1 人","formula":"sum(watch_uv)","table":"dws_video_daily","dimensions":["date","category","platform"],"unit":"人","value_type":"int","owner":"数据平台-消费数据组","aliases":["播放人数","观看人数","播放UV","观看UV"],"confusable_with":["播放量"],"caveats":"跨天去重需走 dws_user_daily，日粒度 watch_uv 不可直接相加"}},"domains":{"社区互动":[{"id":"coin_cnt","name":"投币数"},{"id":"comment_cnt","name":"评论数"},{"id":"danmu_cnt","name":"弹幕数"},{"id":"fav_cnt","name":"收藏数"},{"id":"interaction_rate","name":"互动率"},{"id":"like_cnt","name":"点赞数"},{"id":"like_rate","name":"点赞率"},{"id":"share_cnt","name":"分享数"},{"id":"triple_rate","name":"三连率"}],"消费":[{"id":"avg_play_duration","name":"人均播放时长"},{"id":"duration_sec","name":"播放时长"},{"id":"finish_cnt","name":"完播次数"},{"id":"finish_rate","name":"完播率"},{"id":"play_cnt","name":"播放量"},{"id":"valid_play_cnt","name":"有效播放次数"},{"id":"valid_play_rate","name":"有效播放率"},{"id":"watch_uv","name":"播放人数"}],"用户增长":[{"id":"avg_usage_duration","name":"人均使用时长"},{"id":"dau","name":"DAU"},{"id":"new_user_cnt","name":"新增用户"},{"id":"retain_1d_rate","name":"次日留存率"},{"id":"retain_7d_rate","name":"7日留存率"},{"id":"usage_sec","name":"使用时长"}],"创作":[{"id":"active_up_cnt","name":"活跃UP主数"},{"id":"audit_pass_cnt","name":"过审数"},{"id":"audit_pass_rate","name":"过审率"},{"id":"follower_add_cnt","name":"涨粉数"},{"id":"upload_cnt","name":"投稿数"}],"商业化":[{"id":"ad_income","name":"广告收入"},{"id":"arpu","name":"ARPU"},{"id":"pay_conv_rate","name":"付费转化率"},{"id":"vip_open_cnt","name":"大会员开通数"}]},"chunks":{"active_up_cnt::caveat":{"id":"active_up_cnt::caveat","kind":"caveat","text":"活跃UP主数 口径注意：以过审为门槛，仅投稿未过审不计入"},"active_up_cnt::definition":{"id":"active_up_cnt::definition","kind":"definition","text":"活跃UP主数（人）：统计周期内至少发布过 1 个过审稿件的去重 UP 主数量"},"active_up_cnt::dimension":{"id":"active_up_cnt::dimension","kind":"dimension","text":"活跃UP主数 支持维度：date、category"},"active_up_cnt::formula":{"id":"active_up_cnt::formula","kind":"formula","text":"活跃UP主数 的计算方式：count(distinct up_id)，来源表 dws_up_daily"},"ad_income::caveat":{"id":"ad_income::caveat","kind":"caveat","text":"广告收入 口径注意：按确认口径统计，与现金流出口径不同"},"ad_income::definition":{"id":"ad_income::definition","kind":"definition","text":"广告收入（元）：统计周期内广告业务确认的收入金额"},"ad_income::dimension":{"id":"ad_income::dimension","kind":"dimension","text":"广告收入 支持维度：date、platform"},"ad_income::formula":{"id":"ad_income::formula","kind":"formula","text":"广告收入 的计算方式：sum(ad_income)，来源表 dws_user_daily"},"arpu::caveat":{"id":"arpu::caveat","kind":"caveat","text":"ARPU 口径注意：与 ARPPU 区分，后者分母是付费用户数"},"arpu::definition":{"id":"arpu::definition","kind":"definition","text":"ARPU（元）：平均每活跃用户的付费金额"},"arpu::dimension":{"id":"arpu::dimension","kind":"dimension","text":"ARPU 支持维度：date、platform"},"arpu::formula":{"id":"arpu::formula","kind":"formula","text":"ARPU 的计算方式：sum(pay_amount) / sum(dau)，来源表 dws_user_daily"},"audit_pass_cnt::caveat":{"id":"audit_pass_cnt::caveat","kind":"caveat","text":"过审数 口径注意：审核存在延迟，T 日投稿可能 T+1 出结果，故过审率按投稿日归因为近似口径"},"audit_pass_cnt::confusable":{"id":"audit_pass_cnt::confusable","kind":"confusable","text":"过审数 易混指标：投稿数"},"audit_pass_cnt::definition":{"id":"audit_pass_cnt::definition","kind":"definition","text":"过审数（个）：统计周期内通过审核的稿件数量"},"audit_pass_cnt::dimension":{"id":"audit_pass_cnt::dimension","kind":"dimension","text":"过审数 支持维度：date、category"},"audit_pass_cnt::formula":{"id":"audit_pass_cnt::formula","kind":"formula","text":"过审数 的计算方式：sum(audit_pass_cnt)，来源表 dws_video_daily"},"audit_pass_rate::caveat":{"id":"audit_pass_rate::caveat","kind":"caveat","text":"过审率 口径注意：审核存在延迟，T 日投稿可能在 T+1 出结果"},"audit_pass_rate::definition":{"id":"audit_pass_rate::definition","kind":"definition","text":"过审率（百分比）：通过审核的稿件数占投稿数的比例"},"audit_pass_rate::dimension":{"id":"audit_pass_rate::dimension","kind":"dimension","text":"过审率 支持维度：date、category"},"audit_pass_rate::formula":{"id":"audit_pass_rate::formula","kind":"formula","text":"过审率 的计算方式：sum(audit_pass_cnt) / sum(upload_cnt)，来源表 dws_video_daily"},"avg_play_duration::caveat":{"id":"avg_play_duration::caveat","kind":"caveat","text":"人均播放时长 口径注意：分母是播放人数不是 DAU，两个口径数值差异通常在 10% 以上"},"avg_play_duration::confusable":{"id":"avg_play_duration::confusable","kind":"confusable","text":"人均播放时长 易混指标：人均使用时长"},"avg_play_duration::definition":{"id":"avg_play_duration::definition","kind":"definition","text":"人均播放时长（秒）：观看用户平均每人每天的视频播放时长"},"avg_play_duration::dimension":{"id":"avg_play_duration::dimension","kind":"dimension","text":"人均播放时长 支持维度：date、category、platform"},"avg_play_duration::formula":{"id":"avg_play_duration::formula","kind":"formula","text":"人均播放时长 的计算方式：sum(duration_sec) / sum(watch_uv)，来源表 dws_video_daily"},"avg_usage_duration::caveat":{"id":"avg_usage_duration::caveat","kind":"caveat","text":"人均使用时长 口径注意：分母是 DAU，与人均播放时长的分母（播放人数）不同"},"avg_usage_duration::confusable":{"id":"avg_usage_duration::confusable","kind":"confusable","text":"人均使用时长 易混指标：人均播放时长"},"avg_usage_duration::definition":{"id":"avg_usage_duration::definition","kind":"definition","text":"人均使用时长（秒）：活跃用户平均每人每天的全站停留时长"},"avg_usage_duration::dimension":{"id":"avg_usage_duration::dimension","kind":"dimension","text":"人均使用时长 支持维度：date、platform"},"avg_usage_duration::formula":{"id":"avg_usage_duration::formula","kind":"formula","text":"人均使用时长 的计算方式：sum(usage_sec) / sum(dau)，来源表 dws_user_daily"},"coin_cnt::caveat":{"id":"coin_cnt::caveat","kind":"caveat","text":"投币数 口径注意：投币消耗用户硬币库存，与点赞不是同一行为"},"coin_cnt::definition":{"id":"coin_cnt::definition","kind":"definition","text":"投币数（次）：统计周期内视频获得的投币次数"},"coin_cnt::dimension":{"id":"coin_cnt::dimension","kind":"dimension","text":"投币数 支持维度：date、category、platform"},"coin_cnt::formula":{"id":"coin_cnt::formula","kind":"formula","text":"投币数 的计算方式：sum(coin_cnt)，来源表 dws_video_daily"},"comment_cnt::caveat":{"id":"comment_cnt::caveat","kind":"caveat","text":"评论数 口径注意：评论为独立实体可回复，弹幕不进评论口径"},"comment_cnt::confusable":{"id":"comment_cnt::confusable","kind":"confusable","text":"评论数 易混指标：弹幕数"},"comment_cnt::definition":{"id":"comment_cnt::definition","kind":"definition","text":"评论数（条）：统计周期内视频新增评论条数"},"comment_cnt::dimension":{"id":"comment_cnt::dimension","kind":"dimension","text":"评论数 支持维度：date、category、platform"},"comment_cnt::formula":{"id":"comment_cnt::formula","kind":"formula","text":"评论数 的计算方式：sum(comment_cnt)，来源表 dws_video_daily"},"danmu_cnt::caveat":{"id":"danmu_cnt::caveat","kind":"caveat","text":"弹幕数 口径注意：弹幕按发送时刻归属，不接受补录"},"danmu_cnt::confusable":{"id":"danmu_cnt::confusable","kind":"confusable","text":"弹幕数 易混指标：评论数"},"danmu_cnt::definition":{"id":"danmu_cnt::definition","kind":"definition","text":"弹幕数（条）：统计周期内视频新增弹幕条数"},"danmu_cnt::dimension":{"id":"danmu_cnt::dimension","kind":"dimension","text":"弹幕数 支持维度：date、category、platform"},"danmu_cnt::formula":{"id":"danmu_cnt::formula","kind":"formula","text":"弹幕数 的计算方式：sum(danmu_cnt)，来源表 dws_video_daily"},"dau::caveat":{"id":"dau::caveat","kind":"caveat","text":"DAU 口径注意：DAU 覆盖全站访问行为，播放人数只覆盖视频消费，DAU 恒大于播放人数"},"dau::confusable":{"id":"dau::confusable","kind":"confusable","text":"DAU 易混指标：播放人数"},"dau::definition":{"id":"dau::definition","kind":"definition","text":"DAU（人）：统计周期内启动过 App 或访问过站点的去重用户数"},"dau::dimension":{"id":"dau::dimension","kind":"dimension","text":"DAU 支持维度：date、platform"},"dau::formula":{"id":"dau::formula","kind":"formula","text":"DAU 的计算方式：sum(dau)，来源表 dws_user_daily"},"duration_sec::caveat":{"id":"duration_sec::caveat","kind":"caveat","text":"播放时长 口径注意：仅统计视频消费，不含直播与社区浏览时长"},"duration_sec::confusable":{"id":"duration_sec::confusable","kind":"confusable","text":"播放时长 易混指标：使用时长"},"duration_sec::definition":{"id":"duration_sec::definition","kind":"definition","text":"播放时长（秒）：统计周期内所有视频被播放的累计时长"},"duration_sec::dimension":{"id":"duration_sec::dimension","kind":"dimension","text":"播放时长 支持维度：date、category、platform"},"duration_sec::formula":{"id":"duration_sec::formula","kind":"formula","text":"播放时长 的计算方式：sum(duration_sec)，来源表 dws_video_daily"},"fav_cnt::caveat":{"id":"fav_cnt::caveat","kind":"caveat","text":"收藏数 口径注意：收藏不随视频下架而失效"},"fav_cnt::definition":{"id":"fav_cnt::definition","kind":"definition","text":"收藏数（次）：统计周期内视频被加入收藏的次数"},"fav_cnt::dimension":{"id":"fav_cnt::dimension","kind":"dimension","text":"收藏数 支持维度：date、category、platform"},"fav_cnt::formula":{"id":"fav_cnt::formula","kind":"formula","text":"收藏数 的计算方式：sum(fav_cnt)，来源表 dws_video_daily"},"finish_cnt::caveat":{"id":"finish_cnt::caveat","kind":"caveat","text":"完播次数 口径注意：完播不等于有效播放，前者要求走到结尾"},"finish_cnt::confusable":{"id":"finish_cnt::confusable","kind":"confusable","text":"完播次数 易混指标：有效播放次数"},"finish_cnt::definition":{"id":"finish_cnt::definition","kind":"definition","text":"完播次数（次）：统计周期内视频被完整播放到结尾的次数"},"finish_cnt::dimension":{"id":"finish_cnt::dimension","kind":"dimension","text":"完播次数 支持维度：date、category、platform"},"finish_cnt::formula":{"id":"finish_cnt::formula","kind":"formula","text":"完播次数 的计算方式：sum(finish_cnt)，来源表 dws_video_daily"},"finish_rate::caveat":{"id":"finish_rate::caveat","kind":"caveat","text":"完播率 口径注意：分子分母必须同维度同口径，禁止跨表拼接"},"finish_rate::confusable":{"id":"finish_rate::confusable","kind":"confusable","text":"完播率 易混指标：有效播放率"},"finish_rate::definition":{"id":"finish_rate::definition","kind":"definition","text":"完播率（百分比）：完播次数占播放次数的比例，衡量内容吸引力"},"finish_rate::dimension":{"id":"finish_rate::dimension","kind":"dimension","text":"完播率 支持维度：date、category、platform"},"finish_rate::formula":{"id":"finish_rate::formula","kind":"formula","text":"完播率 的计算方式：sum(finish_cnt) / sum(play_cnt)，来源表 dws_video_daily"},"follower_add_cnt::caveat":{"id":"follower_add_cnt::caveat","kind":"caveat","text":"涨粉数 口径注意：净增口径，已扣除取关"},"follower_add_cnt::definition":{"id":"follower_add_cnt::definition","kind":"definition","text":"涨粉数（人）：统计周期内 UP 主净增粉丝数"},"follower_add_cnt::dimension":{"id":"follower_add_cnt::dimension","kind":"dimension","text":"涨粉数 支持维度：date、category"},"follower_add_cnt::formula":{"id":"follower_add_cnt::formula","kind":"formula","text":"涨粉数 的计算方式：sum(follower_add_cnt)，来源表 dws_up_daily"},"interaction_rate::caveat":{"id":"interaction_rate::caveat","kind":"caveat","text":"互动率 口径注意：五类行为口径由社区组统一维护，历史上存在「三行为版」遗留口径，已废弃"},"interaction_rate::confusable":{"id":"interaction_rate::confusable","kind":"confusable","text":"互动率 易混指标：点赞率、三连率"},"interaction_rate::definition":{"id":"interaction_rate::definition","kind":"definition","text":"互动率（百分比）：点赞、投币、收藏、分享、评论五类互动行为次数之和占播放次数的比例"},"interaction_rate::dimension":{"id":"interaction_rate::dimension","kind":"dimension","text":"互动率 支持维度：date、category、platform"},"interaction_rate::formula":{"id":"interaction_rate::formula","kind":"formula","text":"互动率 的计算方式：sum(like_cnt + coin_cnt + fav_cnt + share_cnt + comment_cnt) / sum(play_cnt)，来源表 dws_video_daily"},"like_cnt::caveat":{"id":"like_cnt::caveat","kind":"caveat","text":"点赞数 口径注意：点赞可取消，口径取当日净增"},"like_cnt::definition":{"id":"like_cnt::definition","kind":"definition","text":"点赞数（次）：统计周期内视频获得的点赞次数"},"like_cnt::dimension":{"id":"like_cnt::dimension","kind":"dimension","text":"点赞数 支持维度：date、category、platform"},"like_cnt::formula":{"id":"like_cnt::formula","kind":"formula","text":"点赞数 的计算方式：sum(like_cnt)，来源表 dws_video_daily"},"like_rate::caveat":{"id":"like_rate::caveat","kind":"caveat","text":"点赞率 口径注意：互动率的子集，不能与互动率混用"},"like_rate::confusable":{"id":"like_rate::confusable","kind":"confusable","text":"点赞率 易混指标：互动率、三连率"},"like_rate::definition":{"id":"like_rate::definition","kind":"definition","text":"点赞率（百分比）：点赞次数占播放次数的比例"},"like_rate::dimension":{"id":"like_rate::dimension","kind":"dimension","text":"点赞率 支持维度：date、category、platform"},"like_rate::formula":{"id":"like_rate::formula","kind":"formula","text":"点赞率 的计算方式：sum(like_cnt) / sum(play_cnt)，来源表 dws_video_daily"},"new_user_cnt::caveat":{"id":"new_user_cnt::caveat","kind":"caveat","text":"新增用户 口径注意：注册但未激活不计入"},"new_user_cnt::definition":{"id":"new_user_cnt::definition","kind":"definition","text":"新增用户（人）：统计周期内首次注册并完成激活的用户数"},"new_user_cnt::dimension":{"id":"new_user_cnt::dimension","kind":"dimension","text":"新增用户 支持维度：date、platform"},"new_user_cnt::formula":{"id":"new_user_cnt::formula","kind":"formula","text":"新增用户 的计算方式：sum(new_user_cnt)，来源表 dws_user_daily"},"pay_conv_rate::caveat":{"id":"pay_conv_rate::caveat","kind":"caveat","text":"付费转化率 口径注意：口径中的付费含大会员与直播打赏，不含广告收入"},"pay_conv_rate::definition":{"id":"pay_conv_rate::definition","kind":"definition","text":"付费转化率（百分比）：付费用户数占活跃用户数的比例"},"pay_conv_rate::dimension":{"id":"pay_conv_rate::dimension","kind":"dimension","text":"付费转化率 支持维度：date、platform"},"pay_conv_rate::formula":{"id":"pay_conv_rate::formula","kind":"formula","text":"付费转化率 的计算方式：sum(pay_user_cnt) / sum(dau)，来源表 dws_user_daily"},"play_cnt::caveat":{"id":"play_cnt::caveat","kind":"caveat","text":"播放量 口径注意：与「播放人数」是一对高频混淆口径，前者计次、后者去重计人"},"play_cnt::confusable":{"id":"play_cnt::confusable","kind":"confusable","text":"播放量 易混指标：播放人数"},"play_cnt::definition":{"id":"play_cnt::definition","kind":"definition","text":"播放量（次）：统计周期内视频被播放的次数，每一次起播计 1 次，同一用户重复播放重复计数"},"play_cnt::dimension":{"id":"play_cnt::dimension","kind":"dimension","text":"播放量 支持维度：date、category、platform"},"play_cnt::formula":{"id":"play_cnt::formula","kind":"formula","text":"播放量 的计算方式：sum(play_cnt)，来源表 dws_video_daily"},"retain_1d_rate::caveat":{"id":"retain_1d_rate::caveat","kind":"caveat","text":"次日留存率 口径注意：分母是 N 天新增，不是 N+1 天活跃"},"retain_1d_rate::confusable":{"id":"retain_1d_rate::confusable","kind":"confusable","text":"次日留存率 易混指标：7日留存率"},"retain_1d_rate::definition":{"id":"retain_1d_rate::definition","kind":"definition","text":"次日留存率（百分比）：第 N 天新增用户在第 N+1 天仍活跃的比例"},"retain_1d_rate::dimension":{"id":"retain_1d_rate::dimension","kind":"dimension","text":"次日留存率 支持维度：date、platform"},"retain_1d_rate::formula":{"id":"retain_1d_rate::formula","kind":"formula","text":"次日留存率 的计算方式：sum(retain_1d_cnt) / sum(new_user_cnt)，来源表 dws_user_daily"},"retain_7d_rate::caveat":{"id":"retain_7d_rate::caveat","kind":"caveat","text":"7日留存率 口径注意：与次日留存率共用分母，横向对比时口径一致"},"retain_7d_rate::confusable":{"id":"retain_7d_rate::confusable","kind":"confusable","text":"7日留存率 易混指标：次日留存率"},"retain_7d_rate::definition":{"id":"retain_7d_rate::definition","kind":"definition","text":"7日留存率（百分比）：第 N 天新增用户在第 N+7 天仍活跃的比例"},"retain_7d_rate::dimension":{"id":"retain_7d_rate::dimension","kind":"dimension","text":"7日留存率 支持维度：date、platform"},"retain_7d_rate::formula":{"id":"retain_7d_rate::formula","kind":"formula","text":"7日留存率 的计算方式：sum(retain_7d_cnt) / sum(new_user_cnt)，来源表 dws_user_daily"},"share_cnt::caveat":{"id":"share_cnt::caveat","kind":"caveat","text":"分享数 口径注意：站外分享与站内分享合并计数"},"share_cnt::definition":{"id":"share_cnt::definition","kind":"definition","text":"分享数（次）：统计周期内视频被分享的次数"},"share_cnt::dimension":{"id":"share_cnt::dimension","kind":"dimension","text":"分享数 支持维度：date、category、platform"},"share_cnt::formula":{"id":"share_cnt::formula","kind":"formula","text":"分享数 的计算方式：sum(share_cnt)，来源表 dws_video_daily"},"triple_rate::caveat":{"id":"triple_rate::caveat","kind":"caveat","text":"三连率 口径注意：需要按 用户×稿件 去重后判定，是全站最容易被错算成「点赞率+投币率+收藏率」的指标"},"triple_rate::confusable":{"id":"triple_rate::confusable","kind":"confusable","text":"三连率 易混指标：互动率、点赞率"},"triple_rate::definition":{"id":"triple_rate::definition","kind":"definition","text":"三连率（百分比）：同一用户对同一稿件同时完成点赞、投币、收藏的次数占播放次数的比例"},"triple_rate::dimension":{"id":"triple_rate::dimension","kind":"dimension","text":"三连率 支持维度：date、category、platform"},"triple_rate::formula":{"id":"triple_rate::formula","kind":"formula","text":"三连率 的计算方式：sum(triple_cnt) / sum(play_cnt)，来源表 dws_video_daily"},"upload_cnt::caveat":{"id":"upload_cnt::caveat","kind":"caveat","text":"投稿数 口径注意：投稿不等于过审，存在审核中与被驳回"},"upload_cnt::confusable":{"id":"upload_cnt::confusable","kind":"confusable","text":"投稿数 易混指标：过审数"},"upload_cnt::definition":{"id":"upload_cnt::definition","kind":"definition","text":"投稿数（个）：统计周期内 UP 主提交的稿件数量"},"upload_cnt::dimension":{"id":"upload_cnt::dimension","kind":"dimension","text":"投稿数 支持维度：date、category"},"upload_cnt::formula":{"id":"upload_cnt::formula","kind":"formula","text":"投稿数 的计算方式：sum(upload_cnt)，来源表 dws_video_daily"},"usage_sec::caveat":{"id":"usage_sec::caveat","kind":"caveat","text":"使用时长 口径注意：口径大于播放时长，二者不可互相替代"},"usage_sec::confusable":{"id":"usage_sec::confusable","kind":"confusable","text":"使用时长 易混指标：播放时长"},"usage_sec::definition":{"id":"usage_sec::definition","kind":"definition","text":"使用时长（秒）：统计周期内全站用户停留时长之和，含视频、直播、社区"},"usage_sec::dimension":{"id":"usage_sec::dimension","kind":"dimension","text":"使用时长 支持维度：date、platform"},"usage_sec::formula":{"id":"usage_sec::formula","kind":"formula","text":"使用时长 的计算方式：sum(usage_sec)，来源表 dws_user_daily"},"valid_play_cnt::caveat":{"id":"valid_play_cnt::caveat","kind":"caveat","text":"有效播放次数 口径注意：30 秒阈值由消费组维护，改动需走口径变更流程"},"valid_play_cnt::confusable":{"id":"valid_play_cnt::confusable","kind":"confusable","text":"有效播放次数 易混指标：完播次数"},"valid_play_cnt::definition":{"id":"valid_play_cnt::definition","kind":"definition","text":"有效播放次数（次）：统计周期内播放时长达到 30 秒以上的播放次数"},"valid_play_cnt::dimension":{"id":"valid_play_cnt::dimension","kind":"dimension","text":"有效播放次数 支持维度：date、category、platform"},"valid_play_cnt::formula":{"id":"valid_play_cnt::formula","kind":"formula","text":"有效播放次数 的计算方式：sum(valid_play_cnt)，来源表 dws_video_daily"},"valid_play_rate::caveat":{"id":"valid_play_rate::caveat","kind":"caveat","text":"有效播放率 口径注意：阈值 30 秒由消费组定义，改动需走口径变更流程"},"valid_play_rate::confusable":{"id":"valid_play_rate::confusable","kind":"confusable","text":"有效播放率 易混指标：完播率"},"valid_play_rate::definition":{"id":"valid_play_rate::definition","kind":"definition","text":"有效播放率（百分比）：播放时长达到 30 秒以上的播放次数占播放次数的比例"},"valid_play_rate::dimension":{"id":"valid_play_rate::dimension","kind":"dimension","text":"有效播放率 支持维度：date、category、platform"},"valid_play_rate::formula":{"id":"valid_play_rate::formula","kind":"formula","text":"有效播放率 的计算方式：sum(valid_play_cnt) / sum(play_cnt)，来源表 dws_video_daily"},"vip_open_cnt::caveat":{"id":"vip_open_cnt::caveat","kind":"caveat","text":"大会员开通数 口径注意：不含续费，续费单独计量"},"vip_open_cnt::definition":{"id":"vip_open_cnt::definition","kind":"definition","text":"大会员开通数（单）：统计周期内新开通大会员的订单数"},"vip_open_cnt::dimension":{"id":"vip_open_cnt::dimension","kind":"dimension","text":"大会员开通数 支持维度：date、platform"},"vip_open_cnt::formula":{"id":"vip_open_cnt::formula","kind":"formula","text":"大会员开通数 的计算方式：sum(vip_open_cnt)，来源表 dws_user_daily"},"watch_uv::caveat":{"id":"watch_uv::caveat","kind":"caveat","text":"播放人数 口径注意：跨天去重需走 dws_user_daily，日粒度 watch_uv 不可直接相加"},"watch_uv::confusable":{"id":"watch_uv::confusable","kind":"confusable","text":"播放人数 易混指标：播放量"},"watch_uv::definition":{"id":"watch_uv::definition","kind":"definition","text":"播放人数（人）：统计周期内观看过视频的去重用户数，同一用户多次观看只计 1 人"},"watch_uv::dimension":{"id":"watch_uv::dimension","kind":"dimension","text":"播放人数 支持维度：date、category、platform"},"watch_uv::formula":{"id":"watch_uv::formula","kind":"formula","text":"播放人数 的计算方式：sum(watch_uv)，来源表 dws_video_daily"}},"chunk_index":{"active_up_cnt":["active_up_cnt::caveat","active_up_cnt::definition","active_up_cnt::dimension","active_up_cnt::formula"],"ad_income":["ad_income::caveat","ad_income::definition","ad_income::dimension","ad_income::formula"],"arpu":["arpu::caveat","arpu::definition","arpu::dimension","arpu::formula"],"audit_pass_cnt":["audit_pass_cnt::caveat","audit_pass_cnt::confusable","audit_pass_cnt::definition","audit_pass_cnt::dimension","audit_pass_cnt::formula"],"audit_pass_rate":["audit_pass_rate::caveat","audit_pass_rate::definition","audit_pass_rate::dimension","audit_pass_rate::formula"],"avg_play_duration":["avg_play_duration::caveat","avg_play_duration::confusable","avg_play_duration::definition","avg_play_duration::dimension","avg_play_duration::formula"],"avg_usage_duration":["avg_usage_duration::caveat","avg_usage_duration::confusable","avg_usage_duration::definition","avg_usage_duration::dimension","avg_usage_duration::formula"],"coin_cnt":["coin_cnt::caveat","coin_cnt::definition","coin_cnt::dimension","coin_cnt::formula"],"comment_cnt":["comment_cnt::caveat","comment_cnt::confusable","comment_cnt::definition","comment_cnt::dimension","comment_cnt::formula"],"danmu_cnt":["danmu_cnt::caveat","danmu_cnt::confusable","danmu_cnt::definition","danmu_cnt::dimension","danmu_cnt::formula"],"dau":["dau::caveat","dau::confusable","dau::definition","dau::dimension","dau::formula"],"duration_sec":["duration_sec::caveat","duration_sec::confusable","duration_sec::definition","duration_sec::dimension","duration_sec::formula"],"fav_cnt":["fav_cnt::caveat","fav_cnt::definition","fav_cnt::dimension","fav_cnt::formula"],"finish_cnt":["finish_cnt::caveat","finish_cnt::confusable","finish_cnt::definition","finish_cnt::dimension","finish_cnt::formula"],"finish_rate":["finish_rate::caveat","finish_rate::confusable","finish_rate::definition","finish_rate::dimension","finish_rate::formula"],"follower_add_cnt":["follower_add_cnt::caveat","follower_add_cnt::definition","follower_add_cnt::dimension","follower_add_cnt::formula"],"interaction_rate":["interaction_rate::caveat","interaction_rate::confusable","interaction_rate::definition","interaction_rate::dimension","interaction_rate::formula"],"like_cnt":["like_cnt::caveat","like_cnt::definition","like_cnt::dimension","like_cnt::formula"],"like_rate":["like_rate::caveat","like_rate::confusable","like_rate::definition","like_rate::dimension","like_rate::formula"],"new_user_cnt":["new_user_cnt::caveat","new_user_cnt::definition","new_user_cnt::dimension","new_user_cnt::formula"],"pay_conv_rate":["pay_conv_rate::caveat","pay_conv_rate::definition","pay_conv_rate::dimension","pay_conv_rate::formula"],"play_cnt":["play_cnt::caveat","play_cnt::confusable","play_cnt::definition","play_cnt::dimension","play_cnt::formula"],"retain_1d_rate":["retain_1d_rate::caveat","retain_1d_rate::confusable","retain_1d_rate::definition","retain_1d_rate::dimension","retain_1d_rate::formula"],"retain_7d_rate":["retain_7d_rate::caveat","retain_7d_rate::confusable","retain_7d_rate::definition","retain_7d_rate::dimension","retain_7d_rate::formula"],"share_cnt":["share_cnt::caveat","share_cnt::definition","share_cnt::dimension","share_cnt::formula"],"triple_rate":["triple_rate::caveat","triple_rate::confusable","triple_rate::definition","triple_rate::dimension","triple_rate::formula"],"upload_cnt":["upload_cnt::caveat","upload_cnt::confusable","upload_cnt::definition","upload_cnt::dimension","upload_cnt::formula"],"usage_sec":["usage_sec::caveat","usage_sec::confusable","usage_sec::definition","usage_sec::dimension","usage_sec::formula"],"valid_play_cnt":["valid_play_cnt::caveat","valid_play_cnt::confusable","valid_play_cnt::definition","valid_play_cnt::dimension","valid_play_cnt::formula"],"valid_play_rate":["valid_play_rate::caveat","valid_play_rate::confusable","valid_play_rate::definition","valid_play_rate::dimension","valid_play_rate::formula"],"vip_open_cnt":["vip_open_cnt::caveat","vip_open_cnt::definition","vip_open_cnt::dimension","vip_open_cnt::formula"],"watch_uv":["watch_uv::caveat","watch_uv::confusable","watch_uv::definition","watch_uv::dimension","watch_uv::formula"]},"confusable_pairs":[["audit_pass_cnt","upload_cnt"],["avg_play_duration","avg_usage_duration"],["comment_cnt","danmu_cnt"],["dau","watch_uv"],["duration_sec","usage_sec"],["finish_cnt","valid_play_cnt"],["finish_rate","valid_play_rate"],["interaction_rate","like_rate"],["interaction_rate","triple_rate"],["like_rate","triple_rate"],["play_cnt","watch_uv"],["retain_1d_rate","retain_7d_rate"]],"policies":{"G01":{"id":"G01","name":"分区过滤缺失","severity":"P0","target":"sql","logic":"查询 dwd_ 或 dws_ 层表时，where 子句中未出现分区字段 date","fix":"在 where 中补充 date 范围条件，避免全表扫描","owner":"数据平台-治理组"},"G02":{"id":"G02","name":"禁止 SELECT *","severity":"P1","target":"sql","logic":"select 列表中出现星号","fix":"显式列出所需字段，避免上游加列导致下游血缘失真","owner":"数据平台-治理组"},"G03":{"id":"G03","name":"敏感字段未脱敏","severity":"P0","target":"sql","logic":"出现 up_id、user_id、phone、device_id 等敏感字段且未包裹脱敏函数","fix":"改用 mask_up_id(up_id) 等平台脱敏函数后再输出","owner":"数据安全组"},"G04":{"id":"G04","name":"指标口径硬编码","severity":"P1","target":"sql","logic":"在 SQL 中直接书写比率计算（含除号且分子分母来自明细列）而未引用指标平台","fix":"改为引用指标平台已注册指标，避免口径分叉","owner":"数据平台-治理组"},"G05":{"id":"G05","name":"表命名不规范","severity":"P2","target":"table","logic":"表名不以 ods_、dwd_、dws_、ads_、dim_ 前缀开头，或包含大写字母","fix":"按《数仓分层命名规范》重命名并同步血缘","owner":"数据平台-治理组"},"G06":{"id":"G06","name":"字段命名不规范","severity":"P2","target":"sql","logic":"select 或 where 中出现驼峰命名的字段","fix":"统一改为小写下划线命名","owner":"数据平台-治理组"},"G07":{"id":"G07","name":"跨层依赖","severity":"P1","target":"sql","logic":"ads_ 层表在 from 或 join 中直接引用 dwd_ 层表","fix":"改为引用 dws_ 层汇总表，保证分层清晰","owner":"数据平台-治理组"},"G08":{"id":"G08","name":"JOIN 缺少关联条件","severity":"P0","target":"sql","logic":"出现 join 关键字但缺少 on 子句","fix":"补充 on 关联条件，避免笛卡尔积","owner":"数据平台-治理组"},"G09":{"id":"G09","name":"无上限的全表导出","severity":"P1","target":"sql","logic":"查询明细层表且既无分区过滤也无 limit 子句","fix":"补充分区条件或 limit，控制扫描量","owner":"数据平台-治理组"},"G10":{"id":"G10","name":"指标重复建设","severity":"P2","target":"metric","logic":"新建指标的口径定义与已注册指标的相似度超过 90%","fix":"复用已有指标，或在指标平台提交合并申请","owner":"数据平台-治理组"}},"models":[{"id":"ads_consumption_overview","layer":"ADS","domain":"消费","columns":["date","category","play_cnt","watch_uv","finish_rate","avg_play_duration"],"upstream":["dws_video_daily"],"downstream":["BI 看板-消费总览"],"owner":"数据平台-消费数据组"},{"id":"dim_category","layer":"DIM","domain":"公共","columns":["category","category_name","parent_category","is_core"],"upstream":["ods_category_meta"],"downstream":["dws_video_daily","ads_consumption_overview"],"owner":"数据平台-公共数据组"},{"id":"dwd_video_play_detail","layer":"DWD","domain":"消费","columns":["date","user_id","video_id","up_id","category","platform","play_cnt","duration_sec","is_finish","is_valid_play"],"upstream":["ods_client_log_play"],"downstream":["dws_video_daily"],"owner":"数据平台-消费数据组"},{"id":"dws_up_daily","layer":"DWS","domain":"创作","columns":["date","up_id","category","publish_cnt","play_cnt","follower_add_cnt","income"],"upstream":["dwd_video_audit","dwd_up_follow"],"downstream":["ads_creator_overview"],"owner":"数据平台-创作数据组"},{"id":"dws_user_daily","layer":"DWS","domain":"用户增长","columns":["date","platform","dau","new_user_cnt","retain_1d_cnt","retain_7d_cnt","usage_sec","pay_user_cnt","pay_amount","vip_open_cnt","ad_income","ad_impression","ad_click"],"upstream":["dwd_user_active","dwd_order_pay"],"downstream":["ads_growth_overview"],"owner":"数据平台-增长数据组"},{"id":"dws_video_daily","layer":"DWS","domain":"消费","columns":["date","category","platform","upload_cnt","audit_pass_cnt","play_cnt","watch_uv","finish_cnt","valid_play_cnt","duration_sec","like_cnt","coin_cnt","fav_cnt","share_cnt","comment_cnt","danmu_cnt","triple_cnt"],"upstream":["dwd_video_play_detail","dwd_video_audit"],"downstream":["ads_consumption_overview","ads_category_rank"],"owner":"数据平台-消费数据组"}]};
+const DAILY = {"play":{"cur_start":"2026-09-04","cur_end":"2026-09-10","base_start":"2026-08-28","base_end":"2026-09-03","days":["2026-09-04","2026-09-05","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10"],"total":{"cur":[31660557,37268119,37556626,31637438,31721321,31820532,27650498],"base":[31944263,36865241,36725398,31214993,31438370,31537866,31305576]},"category":{"动画":{"cur":[5819675,6577627,6633328,5545944,5696236,5774186,5501813],"base":[5774656,6606593,6515139,5539559,5732871,5594395,5714323]},"游戏":{"cur":[7374396,8715942,8892788,7462743,7165111,7233172,3962412],"base":[7528225,8556273,8543233,7284993,7208847,7188929,7349384]},"知识":{"cur":[3172948,3618450,3844654,3100938,3241517,3263642,3122046],"base":[3052128,3738604,3669891,3094943,3150170,3185012,3141797]},"生活":{"cur":[3648854,4442218,4408747,3734934,3781860,3811769,3542844],"base":[3804789,4277337,4192547,3541427,3705435,3654048,3659214]},"影视":{"cur":[4329682,5254436,5286431,4371039,4432066,4503300,4368806],"base":[4544077,5186347,5305275,4393896,4308442,4493224,4299920]},"音乐":{"cur":[2430813,2885975,2766164,2474109,2428096,2348812,2293882],"base":[2388414,2804125,2843599,2453274,2357455,2472307,2359753]},"科技":{"cur":[2062868,2431984,2390330,2088872,2136670,2041607,2042786],"base":[2058202,2365162,2400663,2014737,2082248,2064510,2030184]},"美食":{"cur":[2821321,3341487,3334184,2858859,2839765,2844044,2815909],"base":[2793772,3330800,3255051,2892164,2892902,2885441,2751001]}},"platform":{"ios":{"cur":[10904113,12907007,12788854,10708992,10772805,10870951,9366234],"base":[10894921,12622760,12447086,10579025,10697956,10527676,10562345]},"android":{"cur":[12782033,15021571,15444797,12908527,13065079,13006927,11212157],"base":[13031807,15014571,15094229,12713605,12853215,13008704,12942453]},"web":{"cur":[5473362,6341471,6390145,5487574,5325115,5372908,4786767],"base":[5452932,6284960,6238217,5359839,5421812,5429714,5263098]},"pc":{"cur":[2501049,2998070,2932830,2532345,2558322,2569746,2285340],"base":[2564603,2942950,2945866,2562524,2465387,2571772,2537680]}}},"dau":{"cur_start":"2026-09-10","cur_end":"2026-09-16","base_start":"2026-09-03","base_end":"2026-09-09","days":["2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16"],"total":{"cur":[11149164,11182845,13252519,13304056,11419798,11132851,11459958],"base":[11233665,11121661,13239476,13244520,11055057,11111832,11122114]},"platform":{"ios":{"cur":[3466348,3504388,3891590,4039846,3389770,3422631,3278910],"base":[3493066,3430528,4030525,3956064,3378095,3486639,3300334]},"android":{"cur":[4199249,4148214,5205169,5024307,4372344,4108979,4222156],"base":[4219521,4133804,5011010,5044572,4248213,4155666,4259696]},"web":{"cur":[2354545,2413154,2852129,2901105,2474209,2485763,2432690],"base":[2399600,2384269,2902819,2892661,2330915,2339590,2457539]},"pc":{"cur":[1129022,1117089,1303631,1338798,1183475,1115478,1526202],"base":[1121478,1173060,1295122,1351223,1097834,1129937,1104545]}}}};
+
+const fmt = n => (Math.round(n)).toLocaleString('en-US');
+const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const KIND_CN = {definition:'口径定义', formula:'计算方式', dimension:'支持维度', caveat:'口径注意', confusable:'易混指标'};
+const KIND_CLS = {definition:'b-acc', formula:'b-acc', dimension:'b-gray', caveat:'b-clarify', confusable:'b-clarify'};
+
+/* ═══════════ Tab 切换 ═══════════ */
+document.getElementById('tabs').addEventListener('click', e => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t === b));
+  ['qa','insight','gov','kb'].forEach(id => document.getElementById('tab-' + id).classList.toggle('hidden', id !== b.dataset.tab));
+});
+
+/* ══════════════════════════════════════════════════════
+   Tab 1 · 智能问答
+   ══════════════════════════════════════════════════════ */
+const FLOWS = {
+  play: {
+    q: '最近7天播放量是多少', metric: 'play_cnt', kind: 'answer', kindCls: 'b-answer',
+    cands: [
+      {id:'play_cnt', name:'播放量', score:'63.0', ev:'问题中出现了口径名：播放量'},
+      {id:'valid_play_cnt', name:'有效播放次数', score:'11.65', ev:'与口径名「有效播放量」的字符重合度 0.18'},
+      {id:'duration_sec', name:'播放时长', score:'6.288', ev:'与口径名「播放时长」的字符重合度 0.09'}
+    ],
+    disamb: '次候选 11.65 &lt; 0.80 × 63.0（CLARIFY_RATIO），不触发澄清 → 选定 play_cnt',
+    range: '2026-09-18 ~ 2026-09-24', label: '最近 7 天',
+    sql: 'SELECT SUM(play_cnt) AS _sum_play_cnt FROM dws_video_daily WHERE 1=1 AND date BETWEEN ? AND ? LIMIT 5000',
+    plan: '指标=play_cnt；表=dws_video_daily；区间=2026-09-18~2026-09-24',
+    value: '234,195,130', unit: '次',
+    answer: '播放量在最近 7 天（2026-09-18 至 2026-09-24）为 <b>234,195,130 次</b>。',
+    evid: ['play_cnt::definition', 'play_cnt::formula']
+  },
+  avgdur: {
+    q: '人均播放时长是多少', metric: 'avg_play_duration', kind: 'answer', kindCls: 'b-answer',
+    cands: [
+      {id:'avg_play_duration', name:'人均播放时长', score:'66.0', ev:'问题中出现了口径名：人均播放时长'},
+      {id:'duration_sec', name:'播放时长', score:'64.0', ev:'问题中出现了口径名：播放时长'},
+      {id:'avg_usage_duration', name:'人均使用时长', score:'14.203', ev:'与口径名「人均时长」的字符重合度 0.22'}
+    ],
+    disamb: '次候选 64.0 ≥ 0.80 × 66.0，但「人均播放时长」的命中别名包含「播放时长」→ subsumes 消解，<b>取更精确的口径，不反问</b>',
+    range: '2026-09-18 ~ 2026-09-24', label: '最近 7 天',
+    sql: 'SELECT SUM(duration_sec) AS _sum_duration_sec, SUM(watch_uv) AS _sum_watch_uv FROM dws_video_daily WHERE 1=1 AND date BETWEEN ? AND ? LIMIT 5000',
+    plan: '指标=avg_play_duration；表=dws_video_daily；区间=2026-09-18~2026-09-24',
+    value: '167', unit: '秒',
+    answer: '人均播放时长在最近 7 天（2026-09-18 至 2026-09-24）为 <b>167 秒</b>。',
+    evid: ['avg_play_duration::definition', 'avg_play_duration::formula']
+  },
+  retain1: {
+    q: '次日留存率是多少', metric: 'retain_1d_rate', kind: 'answer', kindCls: 'b-answer',
+    cands: [
+      {id:'retain_1d_rate', name:'次日留存率', score:'65.0', ev:'问题中出现了口径名：次日留存率'},
+      {id:'retain_7d_rate', name:'7日留存率', score:'22.5', ev:'与口径名「7日留存率」的字符重合度 0.38'}
+    ],
+    disamb: '用户已选定口径「次日留存率」，次候选 22.5 &lt; 0.80 × 65.0 → 直接取数',
+    range: '2026-09-18 ~ 2026-09-24', label: '最近 7 天',
+    sql: 'SELECT SUM(retain_1d_cnt) AS _sum_retain_1d_cnt, SUM(new_user_cnt) AS _sum_new_user_cnt FROM dws_user_daily WHERE 1=1 AND date BETWEEN ? AND ? LIMIT 5000',
+    plan: '指标=retain_1d_rate；表=dws_user_daily；区间=2026-09-18~2026-09-24',
+    value: '36.41', unit: '%',
+    answer: '次日留存率在最近 7 天（2026-09-18 至 2026-09-24）为 <b>36.41%</b>。',
+    evid: ['retain_1d_rate::definition', 'retain_1d_rate::formula']
+  },
+  retain7: {
+    q: '7日留存率是多少', metric: 'retain_7d_rate', kind: 'answer', kindCls: 'b-answer',
+    cands: [
+      {id:'retain_7d_rate', name:'7日留存率', score:'65.0', ev:'问题中出现了口径名：7日留存率'},
+      {id:'retain_1d_rate', name:'次日留存率', score:'22.5', ev:'与口径名「次日留存率」的字符重合度 0.38'}
+    ],
+    disamb: '用户已选定口径「7日留存率」，次候选 22.5 &lt; 0.80 × 65.0 → 直接取数',
+    range: '2026-09-18 ~ 2026-09-24', label: '最近 7 天',
+    sql: 'SELECT SUM(retain_7d_cnt) AS _sum_retain_7d_cnt, SUM(new_user_cnt) AS _sum_new_user_cnt FROM dws_user_daily WHERE 1=1 AND date BETWEEN ? AND ? LIMIT 5000',
+    plan: '指标=retain_7d_rate；表=dws_user_daily；区间=2026-09-18~2026-09-24',
+    value: '18.25', unit: '%',
+    answer: '7日留存率在最近 7 天（2026-09-18 至 2026-09-24）为 <b>18.25%</b>。',
+    evid: ['retain_7d_rate::definition', 'retain_7d_rate::formula']
+  }
+};
+
+const CLARIFY = {
+  q: '留存率是多少', kind: 'clarify', kindCls: 'b-clarify',
+  reason: '「留存率是多少」同时命中 次日留存率（17.1）与 7日留存率（17.1），两者口径不同，需要先确认',
+  options: ['次日留存率', '7日留存率'],
+  cands: [
+    {id:'retain_1d_rate', name:'次日留存率', score:'17.143', ev:'与口径名「次日留存率」的字符重合度 0.29'},
+    {id:'retain_7d_rate', name:'7日留存率', score:'17.143', ev:'与口径名「7日留存率」的字符重合度 0.29'}
+  ]
+};
+
+const REFUSE = {
+  q: '帮我导出所有用户的手机号', kind: 'refuse', kindCls: 'b-refuse',
+  text: '这个问题涉及个体明细或敏感字段，数据平台侧不直接提供，请走数据权限申请流程后再查询。',
+  hit: 'REFUSAL_PATTERNS 命中「手机号」'
+};
+
+let qaTimer = null;
+
+function renderTree() {
+  const kw = (document.getElementById('treeSearch').value || '').toLowerCase();
+  const live = ['play_cnt', 'avg_play_duration', 'retain_1d_rate', 'retain_7d_rate'];
+  let h = '';
+  for (const [dom, list] of Object.entries(KB.domains)) {
+    const items = list.filter(m => !kw || m.name.toLowerCase().includes(kw) || m.id.includes(kw));
+    if (!items.length) continue;
+    h += '<div class="grp"><div class="gh"><span>' + esc(dom) + '</span><span>' + items.length + '</span></div>';
+    for (const m of items) {
+      const isLive = live.indexOf(m.id) >= 0;
+      h += '<div class="mi' + (isLive ? ' live' : '') + '" data-mid="' + m.id + '">' +
+        (isLive ? '<span class="dot"></span>' : '<span class="dot" style="background:transparent"></span>') +
+        '<span>' + esc(m.name) + '</span><span class="id mono">' + esc(m.id) + '</span></div>';
+    }
+    h += '</div>';
+  }
+  document.getElementById('treeBody').innerHTML = h;
+}
+document.getElementById('treeSearch').addEventListener('input', renderTree);
+document.getElementById('treeBody').addEventListener('click', e => {
+  const it = e.target.closest('.mi.live'); if (!it) return;
+  const m = KB.metrics[it.dataset.mid];
+  document.getElementById('qaInput').value = m.name + '是多少';
+  qaSend();
+});
+
+function metricCard(mid) {
+  const m = KB.metrics[mid];
+  const conf = (m.confusable_with || []).filter(Boolean);
+  return '<h5>' + esc(m.name) + ' <span class="mono muted" style="font-weight:400">' + esc(m.id) + '</span></h5>' +
+    '<div class="kv"><span class="k">口径定义</span><span class="v">' + esc(m.definition) + '</span></div>' +
+    '<div class="kv"><span class="k">计算方式</span><span class="v mono">' + esc(m.formula) + '</span></div>' +
+    '<div class="kv"><span class="k">来源表</span><span class="v mono">' + esc(m.table) + '</span></div>' +
+    '<div class="kv"><span class="k">支持维度</span><span class="v mono">' + esc((m.dimensions || []).join(' / ')) + '</span></div>' +
+    '<div class="kv"><span class="k">单位</span><span class="v">' + esc(m.unit) + ' · ' + esc(m.value_type) + '</span></div>' +
+    '<div class="kv"><span class="k">业务域</span><span class="v">' + esc(m.domain) + ' · ' + esc(m.level) + '</span></div>' +
+    '<div class="kv"><span class="k">口径负责人</span><span class="v">' + esc(m.owner) + '</span></div>' +
+    '<div class="kv"><span class="k">别名</span><span class="v">' + (m.aliases || []).map(a => '<span class="tag">' + esc(a) + '</span>').join('') + '</span></div>' +
+    '<div class="kv"><span class="k">易混指标</span><span class="v">' + (conf.length ? conf.map(c => '<span class="tag" style="background:#fff5e6;color:#b26a00">' + esc(c) + '</span>').join('') : '<span class="muted">无</span>') + '</span></div>' +
+    '<div class="kv"><span class="k">注意事项</span><span class="v">' + esc(m.caveats || '—') + '</span></div>';
+}
+
+function stepsOf(f) {
+  const m = KB.metrics[f.metric];
+  return [
+    {n:1, t:'search_metric', a:'{query: "' + f.q + '", top_k: 3}',
+     d:'命中 ' + f.cands.length + ' 个候选，首选 <b>' + esc(m.name) + '</b>（' + f.cands[0].score + '，命中别名「' + esc(f.cands[0].ev.replace(/^.*：/,'') || m.name) + '」）'},
+    {n:2, t:'消歧判定 resolve', a:'CLARIFY_RATIO = 0.80 / MIN_SCORE = 12.0',
+     d:f.disamb},
+    {n:3, t:'get_metric', a:'{metric_id: "' + f.metric + '"}',
+     d:'读到口径：' + esc(m.formula) + '，来源表 <span class="mono">' + esc(m.table) + '</span>，口径负责人 ' + esc(m.owner)},
+    {n:4, t:'query_metric', a:'{start: "' + f.range.split(' ~ ')[0] + '", end: "' + f.range.split(' ~ ')[1] + '"}',
+     d:'编译查询计划并通过字段白名单校验<pre class="code">' + esc(f.sql) + '</pre><div class="muted" style="margin-top:4px">计划：' + esc(f.plan) + '</div>'},
+    {n:5, t:'回答 Final(answer)', a:'数 + 口径 + 证据',
+     d:'输出数值与口径定义，并挂上证据块 ' + f.evid.map(x => '<span class="mono">' + esc(x) + '</span>').join('、')}
+  ];
+}
+
+function renderEvidence(ids) {
+  return '<div class="block"><div class="bh"><span>证据块</span><span class="muted">可点击跳转知识库后台</span></div><div class="bb">' +
+    ids.map(id => {
+      const c = KB.chunks[id];
+      return '<div class="evi"><div class="eid mono">' + esc(id) + ' <span class="badge ' + KIND_CLS[c.kind] + '">' + KIND_CN[c.kind] + '</span></div>' +
+        '<div class="et">' + esc(c.text) + '</div></div>';
+    }).join('') + '</div></div>';
+}
+
+function qaRenderAnswer(f) {
+  const m = KB.metrics[f.metric];
+  const st = stepsOf(f);
+  let h = '';
+  h += '<div class="block"><div class="bh"><span>Agent 思考链路</span><span class="muted mono" id="qaRunState">执行中…</span></div><div class="bb" id="qaSteps">';
+  h += st.map(s => '<div class="step" data-i="' + s.n + '"><div><div class="sn">' + s.n + '</div></div>' +
+    '<div style="flex:1"><div class="st mono">' + esc(s.t) + '</div><div class="sa mono">' + esc(s.a) + '</div>' +
+    '<div class="sd">' + s.d + '</div></div></div>').join('');
+  h += '</div></div>';
+
+  h += '<div class="block"><div class="bh"><span>指标消歧</span><span class="muted">候选得分 / 命中证据 / 判定</span></div><div class="bb">' +
+    '<table class="t"><tr><th>指标</th><th>编码</th><th class="num">得分</th><th>命中证据</th></tr>' +
+    f.cands.map((c, i) => '<tr><td>' + esc(c.name) + (i === 0 ? ' <span class="badge b-acc">选定</span>' : '') + '</td>' +
+      '<td class="mono muted">' + esc(c.id) + '</td><td class="num mono">' + esc(c.score) + '</td><td class="muted">' + esc(c.ev) + '</td></tr>').join('') +
+    '</table><div class="muted" style="margin-top:7px">判定：' + f.disamb + '</div></div></div>';
+
+  h += '<div class="block" id="qaAnsBlock" style="display:none"><div class="bh"><span>回答</span><span class="muted">' + esc(f.label) + ' · ' + esc(f.range) + '</span></div><div class="bb">' +
+    '<div class="bignum">' + f.value + '<small>' + esc(f.unit) + '</small></div>' +
+    '<div style="margin-top:6px">' + f.answer + '</div>' +
+    '<div class="muted" style="margin-top:8px;font-size:12px">口径：' + esc(m.definition) + '（' + esc(m.formula) + '，来源表 <span class="mono">' + esc(m.table) + '</span>，口径负责人 ' + esc(m.owner) + '）</div>' +
+    renderEvidence(f.evid) + '</div></div>';
+  return h;
+}
+
+function qaRenderClarify() {
+  return '<div class="block"><div class="bh"><span>Agent 思考链路</span><span class="muted mono">2 步后终止</span></div><div class="bb">' +
+    '<div class="step on"><div><div class="sn">1</div></div><div style="flex:1"><div class="st mono">search_metric</div>' +
+    '<div class="sa mono">{query: "留存率是多少", top_k: 3}</div><div class="sd">命中 2 个候选，得分并列</div></div></div>' +
+    '<div class="step on"><div><div class="sn">2</div></div><div style="flex:1"><div class="st mono">消歧判定 resolve</div>' +
+    '<div class="sa mono">CLARIFY_RATIO = 0.80</div><div class="sd">17.143 ≥ 0.80 × 17.143，且两者互不包含 → <b>不允许猜</b></div></div></div>' +
+    '</div></div>' +
+    '<div class="block"><div class="bh"><span>指标消歧</span><span class="muted">两个口径并列，无法区分</span></div><div class="bb">' +
+    '<table class="t"><tr><th>指标</th><th>编码</th><th class="num">得分</th><th>命中证据</th></tr>' +
+    CLARIFY.cands.map(c => '<tr><td>' + esc(c.name) + '</td><td class="mono muted">' + esc(c.id) + '</td>' +
+      '<td class="num mono">' + esc(c.score) + '</td><td class="muted">' + esc(c.ev) + '</td></tr>').join('') +
+    '</table><div class="muted" style="margin-top:7px">判定：' + esc(CLARIFY.reason) + '</div></div></div>' +
+    '<div class="ask2"><div class="q">需要先确认口径：' + esc(CLARIFY.reason) + '</div>' +
+    '<div class="opts">' + CLARIFY.options.map(o => '<button class="opt" data-opt="' + esc(o) + '">' + esc(o) + '</button>').join('') + '</div>' +
+    '<div class="muted" style="margin-top:8px;font-size:12px">此处不返回任何数字——猜错口径会一路污染 SQL、数字和结论，且无人发现。</div></div>';
+}
+
+function qaRenderRefuse() {
+  return '<div class="block"><div class="bh"><span>Agent 思考链路</span><span class="muted mono">1 步后终止</span></div><div class="bb">' +
+    '<div class="step on"><div><div class="sn">1</div></div><div style="flex:1"><div class="st mono">敏感问法拦截</div>' +
+    '<div class="sa mono">REFUSAL_PATTERNS · 10 条</div><div class="sd">' + esc(REFUSE.hit) + ' → 不进入检索，直接 Final(refuse)</div></div></div>' +
+    '</div></div>' +
+    '<div class="refuse"><div class="q">无法回答</div>' +
+    '<div style="margin-top:6px">' + esc(REFUSE.text) + '</div>' +
+    '<div class="chips" style="margin-top:10px"><button class="btn sm ghost">去申请数据权限</button>' +
+    '<button class="btn sm ghost">查看可问的口径清单</button></div></div>' +
+    '<div class="block" style="margin-top:10px"><div class="bh"><span>命中拦截规则</span></div><div class="bb">' +
+    '<table class="t"><tr><th>模式</th><th>说明</th></tr>' +
+    [['手机号','个体敏感字段'],['身份证','个体敏感字段'],['设备号','个体标识'],['用户明细 / 导出.*明细','个体明细导出'],['某个用户 / 某个UP主','个体明细'],['user_id / up_id','个体主键']]
+      .map(r => '<tr><td class="mono">' + esc(r[0]) + '</td><td class="muted">' + esc(r[1]) + '</td></tr>').join('') +
+    '</table></div></div>';
+}
+
+function qaApply(f, key) {
+  const m = KB.metrics[f.metric];
+  document.getElementById('qaKind').className = 'badge ' + f.kindCls;
+  document.getElementById('qaKind').textContent = f.kind;
+  document.getElementById('qaRange').textContent = f.range;
+  document.getElementById('qaDomain').textContent = m.domain;
+  document.getElementById('qaTable').textContent = m.table;
+  document.getElementById('qaLevel').textContent = m.level;
+  document.getElementById('qaCard').innerHTML = metricCard(f.metric);
+  document.querySelectorAll('.mi').forEach(x => x.classList.toggle('on', x.dataset.mid === f.metric));
+  document.querySelectorAll('.snap').forEach(x => x.classList.toggle('on', x.dataset.snap === key));
+}
+
+function qaRun(key) {
+  if (qaTimer) { clearTimeout(qaTimer); qaTimer = null; }
+  const main = document.getElementById('qaMain');
+
+  if (key === 'clarify') {
+    document.getElementById('qaUserBubble').textContent = CLARIFY.q;
+    document.getElementById('qaKind').className = 'badge ' + CLARIFY.kindCls;
+    document.getElementById('qaKind').textContent = CLARIFY.kind;
+    document.getElementById('qaRange').textContent = '待确认';
+    document.getElementById('qaDomain').textContent = '用户增长';
+    document.getElementById('qaTable').textContent = 'dws_user_daily';
+    document.getElementById('qaLevel').textContent = '派生指标';
+    document.getElementById('qaCard').innerHTML =
+      '<h5>口径未确定 <span class="badge b-clarify">clarify</span></h5>' +
+      '<div class="kv"><span class="k">候选 A</span><span class="v">次日留存率 · 第 N 天新增用户在第 N+1 天仍活跃的比例</span></div>' +
+      '<div class="kv"><span class="k">候选 B</span><span class="v">7日留存率 · 第 N 天新增用户在第 N+7 天仍活跃的比例</span></div>' +
+      '<div class="kv"><span class="k">共同点</span><span class="v mono">sum(retain_xd_cnt) / sum(new_user_cnt)，来源表 dws_user_daily</span></div>' +
+      '<div class="kv"><span class="k">口径负责人</span><span class="v">数据平台-增长数据组</span></div>' +
+      '<div class="kv"><span class="k">处理方式</span><span class="v">不猜。选定后才继续取数</span></div>';
+    document.querySelectorAll('.mi').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.snap').forEach(x => x.classList.toggle('on', x.dataset.snap === 'clarify'));
+    main.innerHTML = qaRenderClarify();
+    return;
+  }
+
+  if (key === 'refuse') {
+    document.getElementById('qaUserBubble').textContent = REFUSE.q;
+    document.getElementById('qaKind').className = 'badge ' + REFUSE.kindCls;
+    document.getElementById('qaKind').textContent = REFUSE.kind;
+    document.getElementById('qaRange').textContent = '—';
+    document.getElementById('qaDomain').textContent = '—';
+    document.getElementById('qaTable').textContent = '—';
+    document.getElementById('qaLevel').textContent = '—';
+    document.getElementById('qaCard').innerHTML =
+      '<h5>未取数 <span class="badge b-refuse">refuse</span></h5>' +
+      '<div class="kv"><span class="k">拒绝原因</span><span class="v">sensitive_or_individual</span></div>' +
+      '<div class="kv"><span class="k">命中模式</span><span class="v mono">手机号</span></div>' +
+      '<div class="kv"><span class="k">后续路径</span><span class="v">数据权限申请流程</span></div>' +
+      '<div class="kv"><span class="k">设计原则</span><span class="v">宁可答不上来，也不给一个来路不明的明细</span></div>';
+    document.querySelectorAll('.mi').forEach(x => x.classList.remove('on'));
+    document.querySelectorAll('.snap').forEach(x => x.classList.toggle('on', x.dataset.snap === 'refuse'));
+    main.innerHTML = qaRenderRefuse();
+    return;
+  }
+
+  const f = FLOWS[key];
+  qaApply(f, key === 'avgdur' || key === 'retain1' || key === 'retain7' ? 'play' : key);
+  document.getElementById('qaUserBubble').textContent = f.q;
+  main.innerHTML = qaRenderAnswer(f);
+  const steps = main.querySelectorAll('.step');
+  let i = 0;
+  (function tick() {
+    if (i < steps.length) {
+      steps[i].classList.add('on');
+      i++;
+      qaTimer = setTimeout(tick, 420);
+    } else {
+      document.getElementById('qaRunState').textContent = '完成 · 5 步 / 预算 6';
+      document.getElementById('qaAnsBlock').style.display = '';
+      document.getElementById('conv').scrollTop = 99999;
+    }
+  })();
+}
+
+function qaSend() {
+  const q = document.getElementById('qaInput').value.trim();
+  if (/手机号|身份证|设备号|个人信息|用户明细|某个用户|某个UP主|user_id|up_id|导出.{0,6}明细/.test(q)) return qaRun('refuse');
+  if (/留存率/.test(q) && !/次日|次留|1日|7日|七日/.test(q)) return qaRun('clarify');
+  if (/7日留存|七日留存/.test(q)) return qaRun('retain7');
+  if (/次日留存|次留|1日留存/.test(q)) return qaRun('retain1');
+  if (/人均播放时长|人均观看时长/.test(q)) return qaRun('avgdur');
+  return qaRun('play');
+}
+document.getElementById('qaSend').addEventListener('click', qaSend);
+document.getElementById('qaInput').addEventListener('keydown', e => { if (e.key === 'Enter') qaSend(); });
+document.querySelectorAll('[data-ask]').forEach(b => b.addEventListener('click', () => {
+  document.getElementById('qaInput').value = b.dataset.ask; qaSend();
+}));
+document.getElementById('qaSnaps').addEventListener('click', e => {
+  const s = e.target.closest('.snap'); if (!s) return;
+  const k = s.dataset.snap;
+  if (k === 'clarify') { document.getElementById('qaInput').value = '留存率是多少'; return qaRun('clarify'); }
+  if (k === 'refuse') { document.getElementById('qaInput').value = '帮我导出所有用户的手机号'; return qaRun('refuse'); }
+  document.getElementById('qaInput').value = '最近7天播放量是多少'; qaRun('play');
+});
+document.getElementById('conv').addEventListener('click', e => {
+  const o = e.target.closest('.opt'); if (!o) return;
+  const v = o.dataset.opt;
+  document.getElementById('qaInput').value = v + '是多少';
+  qaSend();
+});
+
+/* ══════════════════════════════════════════════════════
+   Tab 2 · 自动分析
+   ══════════════════════════════════════════════════════ */
+const CASES = {
+  play: {
+    title: '归因工作台 · 播放量为什么降了',
+    sub: '问题：2026-09-04 到 2026-09-10 播放量为什么降了　|　指标 play_cnt（sum(play_cnt)，来源表 dws_video_daily）',
+    metric: 'play_cnt', unit: '次',
+    cur: 229315091, base: 231031707, pct: -0.7,
+    dims: ['category', 'platform'],
+    attrs: {
+      category: [
+        {v:'游戏', cur:50806564, base:53659884, d:-2853320, c:166.2},
+        {v:'生活', cur:27371226, base:26834797, d:536429, c:-31.2},
+        {v:'知识', cur:23364195, base:23032545, d:331650, c:-19.3},
+        {v:'科技', cur:15195117, base:15015706, d:179411, c:-10.5},
+        {v:'动画', cur:41548809, base:41477536, d:71273, c:-4.2},
+        {v:'美食', cur:20855569, base:20801131, d:54438, c:-3.2},
+        {v:'音乐', cur:17627851, base:17678927, d:-51076, c:3.0},
+        {v:'影视', cur:32545760, base:32531181, d:14579, c:-0.8}
+      ],
+      platform: [
+        {v:'android', cur:93441091, base:94658584, d:-1217493, c:70.9},
+        {v:'web', cur:39177342, base:39450572, d:-273230, c:15.9},
+        {v:'pc', cur:18377702, base:18590782, d:-213080, c:12.4},
+        {v:'ios', cur:78318956, base:78331769, d:-12813, c:0.7}
+      ]
+    },
+    main: {dim:'category', v:'游戏'},
+    concl: '主因是 <b>分区 = 游戏</b>：变化 −2,853,320 次，贡献 +166.2%（整体仅 −0.7%）。下钻可见 2026-09-10 单日 3,962,412 次，较基线同位置日 7,349,384 次 −46.1%，与登记异常 <span class="mono">ANOMALY(2026-09-10, category=游戏, play_cnt, factor 0.55)</span> 一致。',
+    anomaly: {date:'2026-09-10', dim:'category', value:'游戏'}
+  },
+  dau: {
+    title: '归因工作台 · DAU 为什么涨了',
+    sub: '问题：2026-09-10 到 2026-09-16 DAU 为什么涨了　|　指标 dau（sum(dau)，来源表 dws_user_daily）',
+    metric: 'dau', unit: '人',
+    cur: 82901191, base: 82128325, pct: 0.9,
+    dims: ['platform'],
+    attrs: {
+      platform: [
+        {v:'pc', cur:8713695, base:8273199, d:440496, c:57.0},
+        {v:'android', cur:31280418, base:31072482, d:207936, c:26.9},
+        {v:'web', cur:17913595, base:17707393, d:206202, c:26.7},
+        {v:'ios', cur:24993483, base:25075251, d:-81768, c:-10.6}
+      ]
+    },
+    main: {dim:'platform', v:'pc'},
+    concl: '主因是 <b>端 = pc</b>：变化 +440,496 人，贡献 +57.0%（整体仅 +0.9%）。下钻可见 2026-09-16 单日 1,526,202 人，较基线同位置日 1,104,545 人 +38.2%，与登记异常 <span class="mono">ANOMALY(2026-09-16, platform=pc, dau, factor 1.38)</span> 一致。',
+    anomaly: {date:'2026-09-16', dim:'platform', value:'pc'}
+  }
+};
+
+let insCase = 'play', insDrill = {dim:'category', v:'游戏'};
+
+function trendSvg(c) {
+  const D = DAILY[c];
+  const cur = D.total.cur, base = D.total.base;
+  const days = D.days;
+  const max = Math.max.apply(null, cur.concat(base)) * 1.08;
+  const n = cur.length, bw = 40, gap = (470 - n * bw) / (n - 1), top = 8, H = 100;
+  let s = '<svg viewBox="0 0 500 148" style="width:100%;height:160px">';
+  s += '<line x1="0" y1="' + (top + H) + '" x2="500" y2="' + (top + H) + '" stroke="#e5e6eb"/>';
+  let pts = '';
+  for (let i = 0; i < n; i++) {
+    const x = i * (bw + gap), h = cur[i] / max * H;
+    const bad = Math.abs(cur[i] - base[i]) / base[i] > 0.15;
+    s += '<rect x="' + x + '" y="' + (top + H - h) + '" width="' + bw + '" height="' + h + '" rx="3" fill="' + (bad ? '#e0526d' : '#fb7299') + '" opacity="' + (bad ? 1 : .85) + '"/>';
+    s += '<text x="' + (x + bw / 2) + '" y="' + (top + H + 14) + '" font-size="9" fill="#8f959e" text-anchor="middle">' + days[i].slice(5) + '</text>';
+    pts += (i ? ' ' : '') + (x + bw / 2) + ',' + (top + H - base[i] / max * H);
+  }
+  s += '<polyline points="' + pts + '" fill="none" stroke="#98a0aa" stroke-width="1.2" stroke-dasharray="3 3"/>';
+  for (let i = 0; i < n; i++) {
+    const x = i * (bw + gap);
+    s += '<circle cx="' + (x + bw / 2) + '" cy="' + (top + H - base[i] / max * H) + '" r="2" fill="#8f959e"/>';
+  }
+  s += '</svg>';
+  return s;
+}
+
+function insRender() {
+  const C = CASES[insCase], D = DAILY[insCase];
+  document.getElementById('insTitle').textContent = C.title;
+  document.getElementById('insSub').textContent = C.sub;
+
+  document.getElementById('insKpis').innerHTML =
+    '<div class="kpi"><div class="k">当前区间 ' + D.cur_start + ' ~ ' + D.cur_end + '</div><div class="v">' + fmt(C.cur) + ' <span style="font-size:12px;font-weight:400;color:#5f6673">' + C.unit + '</span></div><div class="s">' + esc(C.metric) + '</div></div>' +
+    '<div class="kpi"><div class="k">等长基线 ' + D.base_start + ' ~ ' + D.base_end + '</div><div class="v">' + fmt(C.base) + ' <span style="font-size:12px;font-weight:400;color:#5f6673">' + C.unit + '</span></div><div class="s">shift_range 等长对齐</div></div>' +
+    '<div class="kpi"><div class="k">整体变化</div><div class="v ' + (C.pct < 0 ? 'dn' : 'up') + '">' + (C.pct > 0 ? '+' : '') + C.pct.toFixed(1) + '%</div><div class="s">delta ' + fmt(C.cur - C.base) + ' ' + C.unit + '</div></div>' +
+    '<div class="kpi"><div class="k">归因方式</div><div class="v" style="font-size:14px">贡献度分解</div><div class="s">delta 拆到每个维度值</div></div>';
+
+  document.getElementById('insTrend').innerHTML = trendSvg(insCase);
+  document.getElementById('insTrendNote').textContent =
+    '柱=当期，灰虚线=基线同位置日；' + C.anomaly.date + ' 单日明显偏离（' + C.anomaly.dim + '=' + C.anomaly.value + '）';
+
+  let h = '';
+  for (const dim of C.dims) {
+    const items = C.attrs[dim].slice().sort((a, b) => Math.abs(b.d) - Math.abs(a.d));
+    const maxc = Math.max.apply(null, items.map(i => Math.abs(i.c)));
+    h += '<div class="attr"><div class="ah"><span>按 <span class="mono">' + dim + '</span> 归因</span>' +
+      '<span class="muted">贡献度分解 · 按 |delta| 排序</span>' +
+      '<span style="margin-left:auto" class="muted">点击任意维度值看下钻明细</span></div>';
+    h += items.map((it, idx) => {
+      const same = it.c >= 0;
+      const w = Math.abs(it.c) / maxc * 45;
+      const isMain = (C.main.dim === dim && C.main.v === it.v);
+      return '<div class="ar' + (insDrill.dim === dim && insDrill.v === it.v ? ' on' : '') + '" data-dim="' + dim + '" data-v="' + esc(it.v) + '">' +
+        '<span class="rk">' + (idx + 1) + '</span>' +
+        '<span class="dv">' + esc(it.v) + (isMain ? ' <span class="badge b-acc">主因</span>' : '') + '</span>' +
+        '<span class="mono muted" style="font-size:11.5px">' + fmt(it.cur) + ' → ' + fmt(it.base) + '</span>' +
+        '<span class="num mono ' + (it.d < 0 ? 'dn' : 'up') + '">' + (it.d > 0 ? '+' : '') + fmt(it.d) + '</span>' +
+        '<span><span class="bar"><span class="mid"></span>' +
+        '<span class="fill ' + (same ? 'same' : 'rev') + '" style="' + (same ? 'left:50%;' : 'right:50%;') + 'width:' + w + '%"></span></span>' +
+        '<span class="muted" style="font-size:11px;margin-left:6px">贡献 ' + (it.c > 0 ? '+' : '') + it.c.toFixed(1) + '% · ' + (same ? '同向' : '反向') + '</span></span>' +
+        '</div>';
+    }).join('');
+    h += '</div>';
+  }
+  document.getElementById('insAttrs').innerHTML = h;
+
+  const m = KB.metrics[C.metric];
+  document.getElementById('insConcl').innerHTML = '<div class="t">结论</div><div style="margin-top:5px">' + C.concl +
+    '</div><div class="muted" style="margin-top:7px;font-size:12px">口径：' + esc(m.formula) + '（来源表 <span class="mono">' + esc(m.table) + '</span>，口径负责人 ' + esc(m.owner) + '）</div>';
+
+  insDrillRender();
+}
+
+function insDrillRender() {
+  const C = CASES[insCase], D = DAILY[insCase];
+  const key = insDrill.dim + '=' + insDrill.v;
+  const series = D[insDrill.dim] && D[insDrill.dim][insDrill.v];
+  if (!series) { document.getElementById('insDrill').innerHTML = '<div class="muted">该维度值暂无日粒度明细</div>'; return; }
+  let rows = '', sumC = 0, sumB = 0;
+  for (let i = 0; i < series.cur.length; i++) {
+    const c = series.cur[i], b = series.base[i], d = c - b, p = b ? d / b * 100 : 0;
+    sumC += c; sumB += b;
+    const flag = D.days[i] === C.anomaly.date && C.anomaly.dim === insDrill.dim && C.anomaly.value === insDrill.v;
+    rows += '<tr' + (flag ? ' style="background:#fdecec"' : '') + '><td class="mono">' + D.days[i] + '</td>' +
+      '<td class="num mono">' + fmt(c) + '</td><td class="num mono muted">' + fmt(b) + '</td>' +
+      '<td class="num mono ' + (d < 0 ? 'dn' : 'up') + '">' + (d > 0 ? '+' : '') + fmt(d) + '</td>' +
+      '<td class="num mono ' + (d < 0 ? 'dn' : 'up') + '">' + (p > 0 ? '+' : '') + p.toFixed(1) + '%</td>' +
+      '<td>' + (flag ? '<span class="badge b-p0">登记异常</span>' : '') + '</td></tr>';
+  }
+  document.getElementById('insDrill').innerHTML =
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+    '<b style="font-size:13px">下钻明细 · ' + esc(insDrill.dim) + ' = ' + esc(insDrill.v) + '</b>' +
+    '<span class="muted">当期 ' + D.cur_start + ' ~ ' + D.cur_end + ' vs 基线 ' + D.base_start + ' ~ ' + D.base_end + '</span></div>' +
+    '<table class="t"><tr><th>日期</th><th class="num">当期</th><th class="num">基线</th><th class="num">delta</th><th class="num">变化率</th><th></th></tr>' +
+    rows + '<tr><td><b>合计</b></td><td class="num mono"><b>' + fmt(sumC) + '</b></td><td class="num mono"><b>' + fmt(sumB) + '</b></td>' +
+    '<td class="num mono ' + (sumC - sumB < 0 ? 'dn' : 'up') + '"><b>' + (sumC - sumB > 0 ? '+' : '') + fmt(sumC - sumB) + '</b></td>' +
+    '<td colspan="2" class="muted">与归因卡一致</td></tr></table>';
+}
+
+document.querySelectorAll('[data-case]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-case]').forEach(x => x.classList.toggle('on', x === b));
+  insCase = b.dataset.case;
+  const C = CASES[insCase];
+  insDrill = {dim: C.main.dim, v: C.main.v};
+  insRender();
+}));
+document.getElementById('insAttrs').addEventListener('click', e => {
+  const r = e.target.closest('.ar'); if (!r) return;
+  insDrill = {dim: r.dataset.dim, v: r.dataset.v};
+  insRender();
+});
+
+/* ══════════════════════════════════════════════════════
+   Tab 3 · 治理助手
+   ══════════════════════════════════════════════════════ */
+const GOV = [
+  {gk:'sql', label:'G01 + G02 · 分区与 SELECT *', target:'SELECT * FROM dws_video_daily',
+   counts:{P0:1,P1:1,P2:0}, checked:8,
+   findings:[
+     {id:'G01', name:'分区过滤缺失', sev:'P0', ev:'查询了 dws_video_daily，但 where 中没有 date 条件', fix:'在 where 中补充 date 范围条件，避免全表扫描', owner:'数据平台-治理组'},
+     {id:'G02', name:'禁止 SELECT *', sev:'P1', ev:'select 列表中出现 *', fix:'显式列出所需字段，避免上游加列导致下游血缘失真', owner:'数据平台-治理组'}
+   ]},
+  {gk:'sql', label:'G03 · 敏感字段未脱敏', target:"SELECT up_id, play_cnt FROM dws_up_daily WHERE date BETWEEN '2026-09-01' AND '2026-09-07'",
+   counts:{P0:1,P1:0,P2:0}, checked:8,
+   findings:[
+     {id:'G03', name:'敏感字段未脱敏', sev:'P0', ev:'敏感字段 up_id 未脱敏直接输出', fix:'改用 mask_up_id(up_id) 等平台脱敏函数后再输出', owner:'数据安全组'}
+   ]},
+  {gk:'sql', label:'G04 · 指标口径硬编码', target:"SELECT SUM(finish_cnt) / SUM(play_cnt) FROM dws_video_daily WHERE date >= '2026-09-01'",
+   counts:{P0:0,P1:1,P2:0}, checked:8,
+   findings:[
+     {id:'G04', name:'指标口径硬编码', sev:'P1', ev:'SQL 内直接书写比率计算，未引用指标平台', fix:'改为引用指标平台已注册指标，避免口径分叉', owner:'数据平台-治理组'}
+   ]},
+  {gk:'table', label:'G05 · 表命名不规范', target:'VideoDaily',
+   counts:{P0:0,P1:0,P2:1}, checked:1,
+   findings:[
+     {id:'G05', name:'表命名不规范', sev:'P2', ev:'表名 VideoDaily 不规范（缺少分层前缀）', fix:'按《数仓分层命名规范》重命名并同步血缘', owner:'数据平台-治理组'}
+   ]},
+  {gk:'metric', label:'G10 · 指标重复建设', target:'视频播放次数',
+   counts:{P0:0,P1:0,P2:1}, checked:1,
+   findings:[
+     {id:'G10', name:'指标重复建设', sev:'P2', ev:'《视频播放次数》与已注册指标《播放量》（play_cnt）口径相似度 1.00', fix:'复用已有指标，或在指标平台提交合并申请', owner:'数据平台-治理组'}
+   ]}
+];
+
+let govIdx = 0, govKind = 'sql';
+const GOV_FIELDS = {
+  sql: '<label class="muted" style="font-size:12px;display:block;margin-bottom:5px">待检查 SQL</label><textarea id="govText" spellcheck="false"></textarea>',
+  table: '<label class="muted" style="font-size:12px;display:block;margin-bottom:5px">待检查表名</label><textarea id="govText" spellcheck="false" style="min-height:56px"></textarea>',
+  metric: '<label class="muted" style="font-size:12px;display:block;margin-bottom:5px">待注册指标名</label><textarea id="govText" spellcheck="false" style="min-height:56px"></textarea>' +
+    '<label class="muted" style="font-size:12px;display:block;margin:8px 0 5px">口径定义（用于与已注册指标做相似度比对）</label><textarea id="govDef" spellcheck="false" style="min-height:70px"></textarea>'
+};
+
+function govRenderPresets() {
+  document.getElementById('govPresets').innerHTML = GOV.map((c, i) =>
+    '<button class="pill' + (i === govIdx ? ' on' : '') + '" data-gi="' + i + '">' + esc(c.label) + '</button>').join('');
+}
+function govRenderInput() {
+  document.getElementById('govInputArea').innerHTML = GOV_FIELDS[govKind];
+  const c = GOV[govIdx];
+  const t = document.getElementById('govText');
+  if (t) t.value = c.gk === govKind ? c.target : (govKind === 'sql' ? 'SELECT * FROM dws_video_daily' : (govKind === 'table' ? 'VideoDaily' : '视频播放次数'));
+  const d = document.getElementById('govDef');
+  if (d) d.value = '统计周期内视频被播放的次数，每一次起播计 1 次，同一用户重复播放重复计数';
+}
+function govRenderReport() {
+  const c = GOV[govIdx];
+  document.getElementById('govKind').textContent = 'findings ' + c.findings.length;
+  document.getElementById('govReport').innerHTML =
+    '<div class="block"><div class="bh"><span>检查报告</span><span class="muted">' + (c.gk === 'sql' ? 'SQL' : c.gk === 'table' ? '表名' : '待注册指标') + ' · 已检规则 ' + c.checked + ' 条</span></div><div class="bb">' +
+    '<div class="muted" style="font-size:12px">共命中 ' + c.findings.length + ' 条（P0 ' + c.counts.P0 + ' / P1 ' + c.counts.P1 + ' / P2 ' + c.counts.P2 + '）</div>' +
+    '<pre class="code">' + esc(c.target) + '</pre>' +
+    '<div style="margin-top:10px">' + c.findings.map(f =>
+      '<div class="find ' + f.sev + '"><div class="fh"><span class="badge b-' + f.sev.toLowerCase() + '">' + f.sev + '</span>' +
+      '<span class="rid mono">' + f.id + '</span><span class="rn">' + esc(f.name) + '</span></div>' +
+      '<div class="fe">命中证据：' + esc(f.ev) + '</div>' +
+      '<div class="ff">修复建议：' + esc(f.fix) + '</div>' +
+      '<div class="fo">责任组：' + esc(f.owner) + '</div></div>').join('') + '</div>' +
+    '<div class="chips" style="margin-top:8px"><button class="btn sm ghost">复制问题清单</button>' +
+    '<button class="btn sm ghost">派单到责任组</button>' +
+    (c.counts.P0 ? '<span class="badge b-p0" style="align-self:center">P0 阻断提交</span>' : '<span class="badge b-answer" style="align-self:center">可放行</span>') + '</div>' +
+    '</div></div>';
+  document.getElementById('govRuleHit').innerHTML =
+    '<div class="block"><div class="bh"><span>命中的规则定义</span><span class="muted">来自 policies.yaml</span></div><div class="bb">' +
+    c.findings.map(f => { const r = KB.policies[f.id];
+      return '<div class="kv"><span class="k mono">' + f.id + '</span><span class="v">判定逻辑：' + esc(r.logic) + '</span></div>'; }).join('') +
+    '</div></div>';
+}
+document.getElementById('govKindBar').addEventListener('click', e => {
+  const b = e.target.closest('.pill'); if (!b) return;
+  document.querySelectorAll('#govKindBar .pill').forEach(x => x.classList.toggle('on', x === b));
+  govKind = b.dataset.gk;
+  const i = GOV.findIndex(c => c.gk === govKind);
+  if (i >= 0) govIdx = i;
+  govRenderPresets(); govRenderInput(); govRenderReport();
+});
+document.getElementById('govPresets').addEventListener('click', e => {
+  const b = e.target.closest('.pill'); if (!b) return;
+  govIdx = +b.dataset.gi; govKind = GOV[govIdx].gk;
+  document.querySelectorAll('#govKindBar .pill').forEach(x => x.classList.toggle('on', x.dataset.gk === govKind));
+  govRenderPresets(); govRenderInput(); govRenderReport();
+});
+document.getElementById('govRun').addEventListener('click', govRenderReport);
+
+(function govRules() {
+  document.getElementById('govRules').innerHTML =
+    '<tr><th>规则号</th><th>规则名</th><th>级别</th><th>对象</th><th>判定逻辑</th><th>责任组</th></tr>' +
+    Object.keys(KB.policies).sort().map(id => { const r = KB.policies[id];
+      return '<tr><td class="mono">' + id + '</td><td>' + esc(r.name) + '</td>' +
+        '<td><span class="badge b-' + r.severity.toLowerCase() + '">' + r.severity + '</span></td>' +
+        '<td class="mono muted">' + esc(r.target) + '</td><td class="muted">' + esc(r.logic) + '</td>' +
+        '<td class="muted">' + esc(r.owner) + '</td></tr>'; }).join('');
+})();
+
+/* ══════════════════════════════════════════════════════
+   Tab 4 · 知识库后台
+   ══════════════════════════════════════════════════════ */
+let kbMid = 'play_cnt';
+function kbRenderList() {
+  const kw = (document.getElementById('kbSearch').value || '').toLowerCase();
+  let h = '';
+  for (const [dom, list] of Object.entries(KB.domains)) {
+    const items = list.filter(m => !kw || m.name.toLowerCase().includes(kw) || m.id.includes(kw) || (m.aliases || []).some(a => a.toLowerCase().includes(kw)));
+    if (!items.length) continue;
+    h += '<div class="grp"><div class="gh"><span>' + esc(dom) + '</span><span>' + items.length + '</span></div>';
+    for (const m of items) h += '<div class="mi live' + (m.id === kbMid ? ' on' : '') + '" data-mid="' + m.id + '">' +
+      '<span class="dot"></span><span>' + esc(m.name) + '</span><span class="id mono">' + esc(m.id) + '</span></div>';
+    h += '</div>';
+  }
+  document.getElementById('kbList').innerHTML = h;
+}
+function kbRender() {
+  const m = KB.metrics[kbMid];
+  document.getElementById('kbMid').textContent = m.id;
+  const f = [
+    ['指标中文名', m.name], ['指标编码', m.id], ['业务域', m.domain], ['指标层级', m.level],
+    ['口径定义', m.definition], ['计算方式', m.formula], ['来源表', m.table],
+    ['支持维度', (m.dimensions || []).join(' / ')], ['单位', m.unit], ['数值类型', m.value_type],
+    ['口径负责人', m.owner], ['别名', (m.aliases || []).join(' / ')],
+    ['易混指标', (m.confusable_with || []).filter(Boolean).join(' / ') || '无'],
+    ['注意事项', m.caveats || '—']
+  ];
+  document.getElementById('kbForm').innerHTML = f.map(([k, v], i) =>
+    '<div class="fld' + ([4,5,11,12,13].indexOf(i) >= 0 ? ' wide' : '') + '"><div class="fl">' + esc(k) + '</div>' +
+    '<div class="fv' + ([1,5,6,7].indexOf(i) >= 0 ? ' mono' : '') + '">' + esc(v || '—') + '</div></div>').join('');
+
+  const conf = (m.confusable_with || []).filter(Boolean);
+  document.getElementById('kbConf').innerHTML = conf.length
+    ? conf.map(n => {
+        const t = Object.values(KB.metrics).find(x => x.name === n);
+        return '<span class="pill' + (t ? ' kbjump' : '') + '"' + (t ? ' data-jump="' + t.id + '"' : '') + '>易混：' + esc(n) + (t ? '（' + t.id + '）' : '') + '</span>';
+      }).join('')
+    : '<span class="muted">该指标暂无易混标注</span>';
+  document.getElementById('kbConfCount').textContent = '全库 12 对 · 双向可维护';
+  document.getElementById('kbConfTable').innerHTML =
+    '<tr><th>指标 A</th><th>指标 B</th><th>混淆点</th></tr>' +
+    KB.confusable_pairs.map(p => {
+      const a = KB.metrics[p[0]], b = KB.metrics[p[1]];
+      return '<tr><td>' + esc(a.name) + ' <span class="mono muted">' + p[0] + '</span></td>' +
+        '<td>' + esc(b.name) + ' <span class="mono muted">' + p[1] + '</span></td>' +
+        '<td class="muted">' + esc((a.caveats || '').slice(0, 28) || '—') + '</td></tr>';
+    }).join('');
+
+  const cs = KB.chunk_index[m.id] || [];
+  document.getElementById('kbChunkCount').textContent = '该指标 ' + cs.length + ' 块 · 全库 148 块';
+  document.getElementById('kbChunks').innerHTML = cs.map(id => {
+    const c = KB.chunks[id];
+    return '<div class="ck"><div class="ch"><span class="cid mono">' + esc(id) + '</span>' +
+      '<span class="badge ' + KIND_CLS[c.kind] + '">' + KIND_CN[c.kind] + '</span></div>' +
+      '<div class="ct">' + esc(c.text) + '</div></div>';
+  }).join('');
+
+  document.getElementById('kbModels').innerHTML =
+    '<tr><th>表名</th><th>分层</th><th>业务域</th><th class="num">字段数</th><th>上游</th><th>下游</th><th>负责人</th></tr>' +
+    KB.models.map(md => '<tr><td class="mono">' + esc(md.id) + '</td>' +
+      '<td><span class="badge ' + (md.layer === 'DWS' ? 'b-acc' : 'b-gray') + '">' + esc(md.layer) + '</span></td>' +
+      '<td class="muted">' + esc(md.domain) + '</td><td class="num mono">' + md.columns.length + '</td>' +
+      '<td class="mono muted" style="font-size:11px">' + esc(md.upstream.join(', ')) + '</td>' +
+      '<td class="mono muted" style="font-size:11px">' + esc(md.downstream.join(', ')) + '</td>' +
+      '<td class="muted">' + esc(md.owner) + '</td></tr>').join('');
+}
+document.getElementById('kbSearch').addEventListener('input', kbRenderList);
+document.getElementById('kbList').addEventListener('click', e => {
+  const it = e.target.closest('.mi.live'); if (!it) return;
+  kbMid = it.dataset.mid; kbRenderList(); kbRender();
+});
+document.getElementById('kbConf').addEventListener('click', e => {
+  const p = e.target.closest('[data-jump]'); if (!p) return;
+  kbMid = p.dataset.jump; kbRenderList(); kbRender();
+});
+
+/* ═══════════ 初始化 ═══════════ */
+renderTree();
+qaRun('play');
+insRender();
+govRenderPresets(); govRenderInput(); govRenderReport();
+kbRenderList(); kbRender();
+</script>
+</body>
+</html>
